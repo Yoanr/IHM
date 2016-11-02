@@ -57,6 +57,34 @@ public class Model {
 		return 0;
 	}
 
+	
+
+	public void executeUpdate(String requete) {
+
+try {
+		this.stmt.executeUpdate(requete);
+	    }
+	    catch(SQLException e) {
+		 System.out.println("Probleme   executeUpdate ");
+		return -1;
+		
+	    }
+
+	}
+
+	public void executeQuery(String requete) {
+
+try {
+		this.stmt.executeQuery(requete);
+	    }
+	    catch(SQLException e) {
+		 System.out.println("Probleme   executeQuery ");
+		return -1;
+		
+	    }
+
+	}
+
 	public void closestmtBd() {
 		try {
 			this.stmt.close();
