@@ -15,11 +15,12 @@ public class AccueilView extends JFrame
 		super("Recherche de réservations");
 
 		this.setSize(350, 350);
-		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		metaTester = new SearchView();
 
 		add(metaTester);
+		pack();
+		this.setLocationRelativeTo(null);
 	}
 }
