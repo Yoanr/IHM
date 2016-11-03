@@ -18,7 +18,14 @@ public class SearchController implements ActionListener
 	{
 		if(e.getActionCommand().equals(this.sv.SEARCH_BTN_TXT))
 		{
-			System.out.println(this.sv.getText());
+			String research = this.sv.getText();
+
+			if(research.trim().equals(""))
+			{
+				this.sv.showError();
+				return;
+			}
+			this.sv.hidePreviousError();
 			this.sv.getResultView().setVisible(true);
 			this.sv.revalidate(); // Needed to make changes visibles on the JPanel
 			this.sv.refresh();
