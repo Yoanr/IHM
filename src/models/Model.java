@@ -92,8 +92,10 @@ public class Model {
 		if(openstmtBd()==0) {
 
 			String requete="SELECT * FROM Reservation 
-			INNER JOIN Client 
-			WHERE Reservation.Client = Client.idClient AND Client.nomClient = '" + clientName + "'";
+			INNER JOIN Client ON (Reservation.Client = Client.idClient) 
+			INNER JOIN Chambre ON (Reservation.Chambre = Chambre.idChambre)
+			INNER JOIN Categorie ON (Chambre.idChambre = Categorie.Chambre) 
+			WHERE Client.nomClient = '" + clientName + "'";
 			try {
 				ResultSet response=this.stmt.executeQuery(requete);
 				int size= 0;
@@ -102,7 +104,7 @@ public class Model {
 					rs.beforeFirst();  
 					rs.last();  
 					size = rs.getRow();
-					DataReservation = new String[size][4];  
+					DataReservation = new String[size][5];  
 					rs.first();
 					int i=0;
 					while(rs.next()) {
@@ -111,6 +113,7 @@ public class Model {
 						DataReservation[i][1]=Integer.toString(rs.getInt("duree"));
 						DataReservation[i][2]=Date.toString(rs.getDate("debut"));
 						DataReservation[i][3]=Integer.toString(rs.getInt("Chambre"));
+						DataReservation[i][4]=rs.getString("raccourci");
 						i++;
 					}
 
@@ -131,17 +134,103 @@ public class Model {
 	}
 
 	public String validerReservation(int reservationId) {
-		String requete="UPDATE Reservation
-		SET Reservation.checkin = 1
-		Where idReservation = '" + reservationId+ "'";
-		return requete;
-	}
-	public String getAvailableRooms() {
+		if(openstmtBd()==0) {
+			String requete="UPDATE Reservation
+			SET Reservation.checkin = 1 
+			Where idReservation = '" + reservationId+ "'";
+			String requete2="UPDATE Chambre
+			SET etat = 1
+			Where Reservation= '" + reservationId+ "'";
+			try {
+				this.stmt.executeUpdate(requete);
+				this.stmt.executeUpdate(requete2);
+			}
+			catch(SQLException e) {
+				System.out.println("Probleme   executeUpdate validerReservation ");
+				closestmtBd();
+				closeBd();
+				return "Un probleme est survenu pour valider votre réservation !";
 
-	}
-	
-	public void modifierReservation(int reservationId,) {
+			}
 
+		}
+		else {
+			return "Erreur interne (BD stmt)";
+		}
+		return "Votre validation à bien été pris en compte";
+	}
+
+	public String[][] getAvailableRooms(int idChambre,String raccourci) {
+		String DataAvailablerooms[][];
+		if(openstmtBd()==0) {
+
+			String requete="SELECT * 
+			FROM Chambre 
+			INNER JOIN Categorie ON (Chambre.idChambre = Categorie.Chambre)
+			Where etat = 0 AND idChambre != " + idChambre + " AND raccourci = '" + raccourci+ "'";
+			try {
+				ResultSet response=this.stmt.executeQuery(requete);
+				int size= 0;
+				if (response != null)   
+				{  
+					rs.beforeFirst();  
+					rs.last();  
+					size = rs.getRow();
+					DataAvailablerooms = new String[size][3];  
+					rs.first();
+					int i=0;
+					while(rs.next()) {
+
+						DataAvailablerooms[i][0]=Integer.toString(rs.getInt("idChambre"));
+						DataAvailablerooms[i][1]=rs.getInt("raccourci");
+						DataAvailablerooms[i][2]=rs.getDate("designation");
+
+						i++;
+					}
+
+				}
+
+
+			}
+			catch(SQLException e) {
+				System.out.println("Probleme   executeQuery getAvailableRooms");
+				closestmtBd();
+				closeBd();
+
+			}
+
+		}
+
+		
+		return DateAvailablerooms;
+	}
+
+	public String modifierReservation(int reservationId,int idChambre) {
+if(openstmtBd()==0) {
+			String requete="UPDATE Reservation
+			SET Reservation.checkin = 1 
+			SET Reservation.Chambre = '" + idChambre+ "'
+			Where idReservation = '" + reservationId+ "'";
+			String requete2="UPDATE Chambre
+			SET etat = 1
+			Where Reservation= '" + reservationId+ "'";
+			try {
+				this.stmt.executeUpdate(requete);
+				this.stmt.executeUpdate(requete2);
+			}
+			catch(SQLException e) {
+				System.out.println("Probleme executeUpdate modifierReservation ");
+				closestmtBd();
+				closeBd();
+				return "Un probleme est survenu pour modifier votre réservation !";
+
+			}
+
+		}
+		else {
+			return "Erreur interne (BD stmt)";
+		}
+		return "Votre modification à bien été pris en compte";
 	}
 
 
