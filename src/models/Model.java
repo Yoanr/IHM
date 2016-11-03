@@ -61,29 +61,91 @@ public class Model {
 
 	public void executeUpdate(String requete) {
 
-try {
-		this.stmt.executeUpdate(requete);
-	    }
-	    catch(SQLException e) {
-		 System.out.println("Probleme   executeUpdate ");
-		return -1;
-		
-	    }
+		try {
+			this.stmt.executeUpdate(requete);
+		}
+		catch(SQLException e) {
+			System.out.println("Probleme   executeUpdate ");
+			closeBd();
+			
+		}
 
 	}
 
 	public void executeQuery(String requete) {
 
-try {
-		this.stmt.executeQuery(requete);
-	    }
-	    catch(SQLException e) {
-		 System.out.println("Probleme   executeQuery ");
-		return -1;
-		
-	    }
+		try {
+			this.stmt.executeQuery(requete);
+		}
+		catch(SQLException e) {
+			System.out.println("Probleme   executeQuery ");
+			closeBd();
+			
+			
+		}
 
 	}
+
+
+	public String[][] getReservationByClient(String clientName) {
+		String DataReservation[][];
+		if(openstmtBd()==0) {
+
+			String requete="SELECT * FROM Reservation 
+			INNER JOIN Client 
+			WHERE Reservation.Client = Client.idClient AND Client.nomClient = '" + clientName + "'";
+			try {
+				ResultSet response=this.stmt.executeQuery(requete);
+				int size= 0;
+				if (response != null)   
+				{  
+					rs.beforeFirst();  
+					rs.last();  
+					size = rs.getRow();
+					DataReservation = new String[size][4];  
+					rs.first();
+					int i=0;
+					while(rs.next()) {
+
+						DataReservation[i][0]=Integer.toString(rs.getInt("idReservation"));
+						DataReservation[i][1]=Integer.toString(rs.getInt("duree"));
+						DataReservation[i][2]=Date.toString(rs.getDate("debut"));
+						DataReservation[i][3]=Integer.toString(rs.getInt("Chambre"));
+						i++;
+					}
+
+				}
+
+
+			}
+			catch(SQLException e) {
+				System.out.println("Probleme   executeQuery getreservationByClient");
+				closestmtBd();
+				closeBd();
+
+			}
+
+			closestmtBd();
+		}
+		return DataReservation;
+	}
+
+	public String validerReservation(int reservationId) {
+		String requete="UPDATE Reservation
+		SET Reservation.checkin = 1
+		Where idReservation = '" + reservationId+ "'";
+		return requete;
+	}
+	public String getAvailableRooms() {
+
+	}
+	
+	public void modifierReservation(int reservationId,) {
+
+	}
+
+
+
 
 	public void closestmtBd() {
 		try {
