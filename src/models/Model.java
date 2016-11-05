@@ -57,35 +57,6 @@ public class Model {
 		return 0;
 	}
 
-	
-
-	public void executeUpdate(String requete) {
-
-		try {
-			this.stmt.executeUpdate(requete);
-		}
-		catch(SQLException e) {
-			System.out.println("Probleme   executeUpdate ");
-			closeBd();
-			
-		}
-
-	}
-
-	public void executeQuery(String requete) {
-
-		try {
-			this.stmt.executeQuery(requete);
-		}
-		catch(SQLException e) {
-			System.out.println("Probleme   executeQuery ");
-			closeBd();
-			
-			
-		}
-
-	}
-
 
 	public String[][] getReservationByClient(String clientName) {
 		String DataReservation[][];
@@ -206,7 +177,7 @@ public class Model {
 	}
 
 	public String modifierReservation(int reservationId,int idChambre) {
-if(openstmtBd()==0) {
+		if(openstmtBd()==0) {
 			String requete="UPDATE Reservation
 			SET Reservation.checkin = 1 
 			SET Reservation.Chambre = '" + idChambre+ "'
