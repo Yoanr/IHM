@@ -6,12 +6,15 @@ JC = javac
 ROOT_VIEWS_PATH=views/
 ACCUEIL_VIEWS_PATH=views/accueil/
 ACCUEIL_CTRLS_PATH=controllers/
+ACCUEIL_MODELS_PATH=models/
 
 NETTOYAGE_VIEW_PATH=views/nettoyage/
 NETTOYAGE_CTRLS_PATH=controllers/nettoyage/
 
 ACCUEIL_CLASSES = \
-	$(ACCUEIL_CTRLS_PATH)SearchController.java \
+	$(ACCUEIL_MODELS_PATH)Model.java \
+	$(ACCUEIL_VIEWS_PATH)ResultView.java \
+	$(ACCUEIL_CTRLS_PATH)controller.java \
 	$(ACCUEIL_VIEWS_PATH)SearchView.java \
 	$(ROOT_VIEWS_PATH)AccueilView.java \
 	MainTest.java

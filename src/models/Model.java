@@ -1,3 +1,5 @@
+package model;
+
 import java.sql.*;
 
 public class Model {
@@ -62,29 +64,25 @@ public class Model {
 		String DataReservation[][];
 		if(openstmtBd()==0) {
 
-			String requete="SELECT * FROM Reservation 
-			INNER JOIN Client ON (Reservation.Client = Client.idClient) 
-			INNER JOIN Chambre ON (Reservation.Chambre = Chambre.idChambre)
-			INNER JOIN Categorie ON (Chambre.idChambre = Categorie.Chambre) 
-			WHERE Client.nomClient = '" + clientName + "'";
+			String requete="SELECT * FROM Reservation INNER JOIN Client ON (Reservation.Client = Client.idClient) INNER JOIN Chambre ON (Reservation.Chambre = Chambre.idChambre) INNER JOIN Categorie ON (Chambre.idChambre = Categorie.Chambre) WHERE Client.nomClient = '" + clientName + "'";
 			try {
 				ResultSet response=this.stmt.executeQuery(requete);
 				int size= 0;
 				if (response != null)   
 				{  
-					rs.beforeFirst();  
-					rs.last();  
-					size = rs.getRow();
+					response.beforeFirst();  
+					response.last();  
+					size = response.getRow();
 					DataReservation = new String[size][5];  
-					rs.first();
+					response.first();
 					int i=0;
-					while(rs.next()) {
+					while(response.next()) {
 
-						DataReservation[i][0]=Integer.toString(rs.getInt("idReservation"));
-						DataReservation[i][1]=Integer.toString(rs.getInt("duree"));
-						DataReservation[i][2]=Date.toString(rs.getDate("debut"));
-						DataReservation[i][3]=Integer.toString(rs.getInt("Chambre"));
-						DataReservation[i][4]=rs.getString("raccourci");
+						DataReservation[i][0]=Integer.toString(response.getInt("idReservation"));
+						DataReservation[i][1]=Integer.toString(response.getInt("duree"));
+						DataReservation[i][2]=response.getDate("debut").toString();
+						DataReservation[i][3]=Integer.toString(response.getInt("Chambre"));
+						DataReservation[i][4]=response.getString("raccourci");
 						i++;
 					}
 
@@ -106,12 +104,8 @@ public class Model {
 
 	public String validerReservation(int reservationId) {
 		if(openstmtBd()==0) {
-			String requete="UPDATE Reservation
-			SET Reservation.checkin = 1 
-			Where idReservation = '" + reservationId+ "'";
-			String requete2="UPDATE Chambre
-			SET etat = 1
-			Where Reservation= '" + reservationId+ "'";
+			String requete="UPDATE Reservation SET Reservation.checkin = 1 Where idReservation = '" + reservationId+ "'";
+			String requete2="UPDATE Chambre SET etat = 1 Where Reservation= '" + reservationId+ "'";
 			try {
 				this.stmt.executeUpdate(requete);
 				this.stmt.executeUpdate(requete2);
@@ -135,26 +129,23 @@ public class Model {
 		String DataAvailablerooms[][];
 		if(openstmtBd()==0) {
 
-			String requete="SELECT * 
-			FROM Chambre 
-			INNER JOIN Categorie ON (Chambre.idChambre = Categorie.Chambre)
-			Where etat = 0 AND idChambre != " + idChambre + " AND raccourci = '" + raccourci+ "'";
+			String requete="SELECT * FROM Chambre INNER JOIN Categorie ON (Chambre.idChambre = Categorie.Chambre) Where etat = 0 AND idChambre != " + idChambre + " AND raccourci = '" + raccourci+ "'";
 			try {
 				ResultSet response=this.stmt.executeQuery(requete);
 				int size= 0;
 				if (response != null)   
 				{  
-					rs.beforeFirst();  
-					rs.last();  
-					size = rs.getRow();
+					response.beforeFirst();  
+					response.last();  
+					size = response.getRow();
 					DataAvailablerooms = new String[size][3];  
-					rs.first();
+					response.first();
 					int i=0;
-					while(rs.next()) {
+					while(response.next()) {
 
-						DataAvailablerooms[i][0]=Integer.toString(rs.getInt("idChambre"));
-						DataAvailablerooms[i][1]=rs.getInt("raccourci");
-						DataAvailablerooms[i][2]=rs.getDate("designation");
+						DataAvailablerooms[i][0]=Integer.toString(response.getInt("idChambre"));
+						DataAvailablerooms[i][1]=Integer.toString(response.getInt("raccourci"));
+						DataAvailablerooms[i][2]=response.getDate("designation").toString();
 
 						i++;
 					}
@@ -173,18 +164,13 @@ public class Model {
 		}
 
 		
-		return DateAvailablerooms;
+		return DataAvailablerooms;
 	}
 
 	public String modifierReservation(int reservationId,int idChambre) {
 		if(openstmtBd()==0) {
-			String requete="UPDATE Reservation
-			SET Reservation.checkin = 1 
-			SET Reservation.Chambre = '" + idChambre+ "'
-			Where idReservation = '" + reservationId+ "'";
-			String requete2="UPDATE Chambre
-			SET etat = 1
-			Where Reservation= '" + reservationId+ "'";
+			String requete="UPDATE Reservation SET Reservation.checkin = 1 SET Reservation.Chambre = '" + idChambre+ "' Where idReservation = '" + reservationId+ "'";
+			String requete2="UPDATE Chambre SET etat = 1 Where Reservation= '" + reservationId+ "'";
 			try {
 				this.stmt.executeUpdate(requete);
 				this.stmt.executeUpdate(requete2);

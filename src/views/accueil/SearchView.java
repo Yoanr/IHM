@@ -7,6 +7,7 @@ import controllers.*;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
+import java.awt.event.*;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -16,18 +17,19 @@ public class SearchView extends JPanel
 	private String APP_NAME 			= "Recherche de réservations";
 	private final String SEARCH_HINT 	= "Rechercher client par nom ...";
 	public  final String SEARCH_BTN_TXT	= "Rechercher";
-	private final String[] METADATA_TAB = { "Numéro", "Nom", "Prénom" };
+	private final String[] METADATA_TAB = { "Numéro", "Nom", "Prénom", "Confirmé" };
 	private  final String  EMPTY_ERR    = "Pour lancer une rechercher, merci de remplir le champ de texte";
 
 	private JTextField 	searchField;
 	private JLabel		errorField;
 	private JButton 	searchButton;
-	private DefaultTableModel dtm;
-	private JTable resultTab;
+	private JCheckBoxTable 		dtm;
+	private JTable 		resultTab;
 	private JScrollPane resultView;
-	private SearchController ctrl;
+
+	private controller 	ctrl;
 	private GridBagConstraints gbc;
-	private JLabel lbl;
+	private JLabel 		lbl;
 
 	public SearchView()
 	{
@@ -36,11 +38,11 @@ public class SearchView extends JPanel
 		searchField 			= new JTextField("\r", 20);
 		errorField				= new JLabel(EMPTY_ERR);
 		searchButton 			= new JButton(this.SEARCH_BTN_TXT);
-		dtm 					= new DefaultTableModel(METADATA_TAB, 0); // By default no data
+		dtm 					= new JCheckBoxTable(METADATA_TAB, 0);
 		resultTab				= new JTable(this.dtm);
 		resultView				= new JScrollPane(this.resultTab);
-		ctrl 					= new SearchController(this);
 
+		ctrl 					= new controller(this);
 		initUI();
 
 	}
@@ -129,7 +131,7 @@ public class SearchView extends JPanel
 
 	/* "Usefull" getters ... */
 	public String getText() 			{ return this.searchField.getText(); }
-	public JScrollPane getResultView() 	{ return this.resultView; }
+	public JCheckBoxTable getResultTab() 			{ return this.dtm; }
 	
 	public void refresh()
 	{
@@ -149,5 +151,10 @@ public class SearchView extends JPanel
 	{
 		if(this.errorField.isDisplayable()) errorField.setVisible(false);
 		refresh();
+	}
+
+	public JScrollPane getTab()
+	{
+		return this.resultView;
 	}
 }
