@@ -1,4 +1,4 @@
-package model;
+package models;
 
 import java.sql.*;
 
@@ -61,7 +61,7 @@ public class Model {
 
 
 	public String[][] getReservationByClient(String clientName) {
-		String DataReservation[][];
+		String DataReservation[][]=null;
 		if(openstmtBd()==0) {
 
 			String requete="SELECT * FROM Reservation INNER JOIN Client ON (Reservation.Client = Client.idClient) INNER JOIN Chambre ON (Reservation.Chambre = Chambre.idChambre) INNER JOIN Categorie ON (Chambre.idChambre = Categorie.Chambre) WHERE Client.nomClient = '" + clientName + "'";
@@ -126,7 +126,7 @@ public class Model {
 	}
 
 	public String[][] getAvailableRooms(int idChambre,String raccourci) {
-		String DataAvailablerooms[][];
+		String DataAvailablerooms[][]=null;
 		if(openstmtBd()==0) {
 
 			String requete="SELECT * FROM Chambre INNER JOIN Categorie ON (Chambre.idChambre = Categorie.Chambre) Where etat = 0 AND idChambre != " + idChambre + " AND raccourci = '" + raccourci+ "'";

@@ -79,7 +79,7 @@ public class controller implements ActionListener
 		if(e.getActionCommand().equals(sv.SEARCH_BTN_TXT))
 		{
 			String clientName = this.sv.getText();
-			String t[] = {"42", "58", "dsqdq"}; //tableau de test ...
+			String t[][] = {{"42", "58", "dsqdq"}}; //tableau de test ...
 
 
 			String reservations[][];
@@ -96,16 +96,16 @@ public class controller implements ActionListener
 			 * BUG: Vérifier si le model retourne bien le tableau au bon format
 			 */
 
-			m.load();
-			m.connectBDInterne();
-			reservations = m.getReservationByClient(clientName);
+			//m.loadBd();
+			//m.connectBdInterne();
+			//reservations = m.getReservationByClient(clientName);
 
-			for(int i = 0; i < reservations.length; i++)
+			for(int i = 0; i < 1/*reservations.length*/; i++)
 				addRow(t[i]);
 
 			this.sv.getTab().setVisible(true);
 			this.sv.refresh();
-			m.closeBd();
+			//m.closeBd();
 		}
 	}
 }
