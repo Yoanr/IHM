@@ -5,7 +5,7 @@ import javax.swing.event.*;
 
 public class JCheckBoxTable extends DefaultTableModel
 {
-	public Test(String[] meta, int rowAdded)
+	public JCheckBoxTable(String[] meta, int rowAdded)
 	{
 		super(meta, rowAdded);
 	}

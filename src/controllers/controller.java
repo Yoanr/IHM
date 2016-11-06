@@ -59,15 +59,12 @@ public class controller implements ActionListener
 	private void addRow(String[] row)
 	{
 		ArrayList<Object> list = new ArrayList<Object>();
-		Test tab = this.sv.getResultTab();
+		JCheckBoxTable tab = this.sv.getResultTab();
 
 		for(int i = 0; i < row.length; i++)
 			list.add(row[i]);
 		if(row.length == 3)
 			list.add(false);
-
-		Object[] tmp = new Object[list.size()];
-		tmp = list.toArray(tmp);
 
 		tab.addRow(list.toArray());
 	}
@@ -82,11 +79,10 @@ public class controller implements ActionListener
 		if(e.getActionCommand().equals(sv.SEARCH_BTN_TXT))
 		{
 			String clientName = this.sv.getText();
-			//String t[] = {"42", "58", "dsqdq"}; tableau de test ...
+			String t[] = {"42", "58", "dsqdq"}; //tableau de test ...
 
 
 			String reservations[][];
-			Test tab = this.sv.getResultTab();
 			// Regarder si le champ est vide
 			if(clientName.trim().equals(""))
 			{
