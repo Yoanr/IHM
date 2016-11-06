@@ -27,6 +27,8 @@ public class SearchView extends JPanel
 	private JTable 		resultTab;
 	private JScrollPane resultView;
 
+	private JReservation res;
+
 	private controller 	ctrl;
 	private GridBagConstraints gbc;
 	private JLabel 		lbl;
@@ -42,6 +44,8 @@ public class SearchView extends JPanel
 		resultTab				= new JTable(this.dtm);
 		resultView				= new JScrollPane(this.resultTab);
 
+		res 					= new JReservation();
+
 		ctrl 					= new controller(this);
 		initUI();
 
@@ -53,6 +57,7 @@ public class SearchView extends JPanel
 
 		// Setting up listeners ...
 		searchButton.addActionListener(ctrl);
+		res.getSubmitBtn().addActionListener(ctrl);
 		searchField.addFocusListener(new FocusListener()
 		{
 			public void focusGained(FocusEvent e)
@@ -85,6 +90,7 @@ public class SearchView extends JPanel
 		gbc.weightx		= 1.0;
 		gbc.weighty		= 1.0;
 		gbc.anchor		= GridBagConstraints.CENTER;
+		gbc.fill 		= GridBagConstraints.HORIZONTAL;
 		gbc.insets		= new Insets(5, 5, 5, 5);
 
 		add(searchField, gbc);
@@ -94,9 +100,10 @@ public class SearchView extends JPanel
 		gbc.gridy 		= 2;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
-		gbc.weightx		= 0.0;
-		gbc.weighty		= 0.0;
+		gbc.weightx		= 1.0;
+		gbc.weighty		= 1.0;
 		gbc.anchor		= GridBagConstraints.CENTER;
+		gbc.fill		= GridBagConstraints.HORIZONTAL;
 		gbc.insets		= new Insets(5, 5, 5, 5);
 
 		add(searchButton, gbc);
@@ -123,15 +130,16 @@ public class SearchView extends JPanel
 		gbc.anchor		= GridBagConstraints.CENTER;
 		gbc.insets		= new Insets(5, 5, 5, 5);
 
-		add(resultView, gbc);
+		add(res, gbc);
 
 		errorField.setVisible(false);
-		resultView.setVisible(false); // Element caché au début car pas utile de le montrer vide
+		res.setVisible(false); // Element caché au début car pas utile de le montrer vide
 	}
 
 	/* "Usefull" getters ... */
-	public String getText() 			{ return this.searchField.getText(); }
+	public String getText() 						{ return this.searchField.getText(); }
 	public JCheckBoxTable getResultTab() 			{ return this.dtm; }
+	public JReservation getRes()					{ return this.res; }
 	
 	public void refresh()
 	{

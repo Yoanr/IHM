@@ -14,6 +14,7 @@ NETTOYAGE_CTRLS_PATH=controllers/nettoyage/
 ACCUEIL_CLASSES = \
 	$(ACCUEIL_MODELS_PATH)Model.java \
 	$(ACCUEIL_CTRLS_PATH)controller.java \
+	$(ACCUEIL_VIEWS_PATH)JReservation.java \
 	$(ACCUEIL_VIEWS_PATH)SearchView.java \
 	$(ROOT_VIEWS_PATH)AccueilView.java \
 	MainTest.java
@@ -28,6 +29,7 @@ nettoyage: $(NETTOYAGE_CLASSES:.java=.class)
 all: accueil nettoyage
 
 clean-accueil:
+	$(RM) $(ACCUEIL_MODELS_PATH)*.class
 	$(RM) $(ROOT_VIEWS_PATH)*.class
 	$(RM) $(ACCUEIL_CTRLS_PATH)*.class
 	$(RM) $(ACCUEIL_VIEWS_PATH)*.class

@@ -66,7 +66,7 @@ public class controller implements ActionListener
 		if(row.length == 3)
 			list.add(false);
 
-		tab.addRow(list.toArray());
+		this.sv.getRes().setData(list.toArray());
 	}
 
 	/**
@@ -103,9 +103,16 @@ public class controller implements ActionListener
 			for(int i = 0; i < 1/*reservations.length*/; i++)
 				addRow(t[i]);
 
-			this.sv.getTab().setVisible(true);
+			this.sv.getRes().setVisible(true);
 			this.sv.refresh();
 			//m.closeBd();
+		}
+
+		if(e.getActionCommand().equals(JReservation.CONFIRMATION))
+		{
+			// TODO: Ajouter les fonctions de base de données
+			JOptionPane.showMessageDialog(null,"La réservation a bien été modifiée !", "Réservation", JOptionPane.DEFAULT_OPTION);
+			return;
 		}
 	}
 }
