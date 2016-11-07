@@ -111,6 +111,7 @@ public class controller implements ActionListener
 		if(e.getActionCommand().equals(JReservation.CONFIRMATION))
 		{
 			// TODO: Ajouter les fonctions de base de données
+			System.out.println(this.sv.getRes().getRoomNumber());
 			JOptionPane.showMessageDialog(null,"La réservation a bien été modifiée !", "Réservation", JOptionPane.DEFAULT_OPTION);
 			return;
 		}

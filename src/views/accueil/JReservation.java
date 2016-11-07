@@ -4,15 +4,18 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
+import java.util.*;
+
 public class JReservation extends JPanel
 {
-	private JLabel 		roomNumber;
+	private JPanel 		roomNumber;
 	private JLabel		nameLegend;
 	private JLabel		pnameLegend;
 	private JTextField	nameField;
 	private JTextField	pnameField;
 	private JButton		confirmation;
 	private JButton 	modification;
+	private JSpinner	spin;
 
 	public static final String CONFIRMATION = "Confirmer";
 	public static final String MODIFICATION = "Modifier";
@@ -22,7 +25,7 @@ public class JReservation extends JPanel
 	public JReservation()
 	{
 		super();
-		roomNumber 			= new JLabel();
+		roomNumber 			= new JPanel();
 		nameLegend			= new JLabel("Nom");
 		pnameLegend 		= new JLabel("Prénom");
 		nameField			= new JTextField(10);
@@ -30,6 +33,16 @@ public class JReservation extends JPanel
 		confirmation		= new JButton(JReservation.CONFIRMATION);
 		modification 		= new JButton(JReservation.MODIFICATION);
 		gbc 				= new GridBagConstraints();
+
+		SpinnerModel s = new SpinnerNumberModel(0, 0, 0, 1);
+		spin = new JSpinner(s);
+		spin.setPreferredSize(new Dimension(100, 40));
+
+		Font f = ((JSpinner.NumberEditor) spin.getEditor()).getTextField().getFont();
+
+		((JSpinner.NumberEditor) spin.getEditor()).getTextField().setFont(f.deriveFont(45.0f));
+
+		roomNumber.add(spin);
 
 		Border b = BorderFactory.createLineBorder(Color.BLACK, 1);
 		setBorder(b);
@@ -41,7 +54,7 @@ public class JReservation extends JPanel
 	private void initUI()
 	{
 		/* Mise en place du label */
-		roomNumber.setFont(roomNumber.getFont().deriveFont(64.0f));
+		//roomNumber.setFont(roomNumber.getFont().deriveFont(64.0f));
 		gbc.gridx 		= 1;
 		gbc.gridy 		= 1;
 		gbc.gridheight 	= 1;
@@ -88,10 +101,19 @@ public class JReservation extends JPanel
 
 	public void setData(Object[] data)
 	{
-		roomNumber.setText(data[0].toString());
+		//roomNumber.setText(data[0].toString());
 		nameField.setText(data[1].toString());
 		pnameField.setText(data[2].toString());
 	}
 
 	public JButton getSubmitBtn() { return this.confirmation; }
+	public int getRoomNumber()	  { return (int) this.spin.getValue(); }
+
+	public void setRooms(Object[] data)
+	{
+		Integer[] d =  (Integer[]) data;
+
+		for(int i = 0; i < d.length; i++)
+			spin.setValue(d[i].intValue());
+	}
 }
