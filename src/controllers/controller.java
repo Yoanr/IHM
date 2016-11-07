@@ -59,14 +59,14 @@ public class controller implements ActionListener
 	private void addRow(String[] row)
 	{
 		ArrayList<Object> list = new ArrayList<Object>();
-		JCheckBoxTable tab = this.sv.getResultTab();
+		JScrollPane tab = this.sv.getResultTab();
 
 		for(int i = 0; i < row.length; i++)
 			list.add(row[i]);
 		if(row.length == 3)
 			list.add(false);
 
-		this.sv.getRes().setData(list.toArray());
+		this.sv.getModel().addRow(list.toArray());
 	}
 
 	/**
@@ -103,17 +103,9 @@ public class controller implements ActionListener
 			for(int i = 0; i < 1/*reservations.length*/; i++)
 				addRow(t[i]);
 
-			this.sv.getRes().setVisible(true);
+			this.sv.getResultTab().setVisible(true);
 			this.sv.refresh();
 			//m.closeBd();
-		}
-
-		if(e.getActionCommand().equals(JReservation.CONFIRMATION))
-		{
-			// TODO: Ajouter les fonctions de base de données
-			System.out.println(this.sv.getRes().getRoomNumber());
-			JOptionPane.showMessageDialog(null,"La réservation a bien été modifiée !", "Réservation", JOptionPane.DEFAULT_OPTION);
-			return;
 		}
 	}
 }

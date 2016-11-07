@@ -5,9 +5,12 @@ import controllers.*;
 
 /* Java  imports */
 import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
+
+import java.util.*;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -27,7 +30,7 @@ public class SearchView extends JPanel
 	private JTable 		resultTab;
 	private JScrollPane resultView;
 
-	private JReservation res;
+	//private JReservation res;
 
 	private controller 	ctrl;
 	private GridBagConstraints gbc;
@@ -44,9 +47,38 @@ public class SearchView extends JPanel
 		resultTab				= new JTable(this.dtm);
 		resultView				= new JScrollPane(this.resultTab);
 
-		res 					= new JReservation();
-
 		ctrl 					= new controller(this);
+
+		resultTab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		ListSelectionModel selectionModel = resultTab.getSelectionModel();
+
+		selectionModel.addListSelectionListener(new ListSelectionListener(){
+			public void valueChanged(ListSelectionEvent e)
+			{
+				if(!e.getValueIsAdjusting())
+				{
+					ArrayList<Object> list = new ArrayList<Object>();
+					int i = resultTab.getSelectedRow();
+					int s = 0;
+					for(s = 0; s < METADATA_TAB.length - 1; s++)
+						list.add(resultTab.getModel().getValueAt(i, s));
+
+					String str[] = new String[(list.size())];
+					int index = 0;
+					for(Object v : list)
+					{
+						str[index] = (String) v;
+						index++;
+					}
+
+					JReservation r = new JReservation();
+					r.setData(str);
+					r.setVisible(true);
+				}
+			}
+		});
+
 		initUI();
 
 	}
@@ -57,7 +89,7 @@ public class SearchView extends JPanel
 
 		// Setting up listeners ...
 		searchButton.addActionListener(ctrl);
-		res.getSubmitBtn().addActionListener(ctrl);
+		//res.getSubmitBtn().addActionListener(ctrl);
 		searchField.addFocusListener(new FocusListener()
 		{
 			public void focusGained(FocusEvent e)
@@ -121,7 +153,6 @@ public class SearchView extends JPanel
 		add(errorField, gbc);
 
 		/* Mise en place du tableau de réservations */
-		gbc.gridx 		= 1;
 		gbc.gridy 		= 4;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
@@ -130,16 +161,16 @@ public class SearchView extends JPanel
 		gbc.anchor		= GridBagConstraints.CENTER;
 		gbc.insets		= new Insets(5, 5, 5, 5);
 
-		add(res, gbc);
+		add(resultView, gbc);
 
 		errorField.setVisible(false);
-		res.setVisible(false); // Element caché au début car pas utile de le montrer vide
+		resultView.setVisible(true);
 	}
 
 	/* "Usefull" getters ... */
 	public String getText() 						{ return this.searchField.getText(); }
-	public JCheckBoxTable getResultTab() 			{ return this.dtm; }
-	public JReservation getRes()					{ return this.res; }
+	public JScrollPane getResultTab() 				{ return this.resultView; }
+	public JCheckBoxTable getModel()				{ return this.dtm; }
 	
 	public void refresh()
 	{

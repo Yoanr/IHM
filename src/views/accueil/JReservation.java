@@ -6,8 +6,9 @@ import java.awt.*;
 
 import java.util.*;
 
-public class JReservation extends JPanel
+public class JReservation extends JFrame
 {
+	private JPanel root;
 	private JPanel 		roomNumber;
 	private JLabel		nameLegend;
 	private JLabel		pnameLegend;
@@ -17,6 +18,8 @@ public class JReservation extends JPanel
 	private JButton 	modification;
 	private JSpinner	spin;
 
+	public final String APP_NAME = "Réservation";
+
 	public static final String CONFIRMATION = "Confirmer";
 	public static final String MODIFICATION = "Modifier";
 
@@ -24,12 +27,16 @@ public class JReservation extends JPanel
 
 	public JReservation()
 	{
-		super();
+		super("Réservation");
+		setSize(400, 250);
+		setLocationRelativeTo(null);
+
+		root 				= new JPanel();
 		roomNumber 			= new JPanel();
 		nameLegend			= new JLabel("Nom");
 		pnameLegend 		= new JLabel("Prénom");
-		nameField			= new JTextField(10);
-		pnameField			= new JTextField(10);
+		nameField			= new JTextField(20);
+		pnameField			= new JTextField(20);
 		confirmation		= new JButton(JReservation.CONFIRMATION);
 		modification 		= new JButton(JReservation.MODIFICATION);
 		gbc 				= new GridBagConstraints();
@@ -43,52 +50,48 @@ public class JReservation extends JPanel
 		((JSpinner.NumberEditor) spin.getEditor()).getTextField().setFont(f.deriveFont(45.0f));
 
 		roomNumber.add(spin);
-
-		Border b = BorderFactory.createLineBorder(Color.BLACK, 1);
-		setBorder(b);
-		setLayout(new GridBagLayout());
+		root.setLayout(new GridBagLayout());
 
 		initUI();
 	}
 
 	private void initUI()
 	{
-		/* Mise en place du label */
-		//roomNumber.setFont(roomNumber.getFont().deriveFont(64.0f));
 		gbc.gridx 		= 1;
 		gbc.gridy 		= 1;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
+		gbc.anchor 		= GridBagConstraints.CENTER;
 		gbc.insets		= new Insets(5, 5, 5, 5);
-		add(roomNumber, gbc);
+		root.add(roomNumber, gbc);
 
 		gbc.gridx 		= 2;
 		gbc.gridy 		= 1;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
 		gbc.insets		= new Insets(5, 5, 5, 5);
-		add(nameLegend, gbc);
+		root.add(nameLegend, gbc);
 
 		gbc.gridx 		= 3;
 		gbc.gridy 		= 1;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
 		gbc.insets		= new Insets(5, 5, 5, 5);
-		add(nameField, gbc);
+		root.add(nameField, gbc);
 
 		gbc.gridx 		= 4;
 		gbc.gridy 		= 1;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
 		gbc.insets		= new Insets(5, 5, 5, 5);
-		add(pnameLegend, gbc);
+		root.add(pnameLegend, gbc);
 
 		gbc.gridx 		= 5;
 		gbc.gridy 		= 1;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
 		gbc.insets		= new Insets(5, 5, 5, 5);
-		add(pnameField, gbc);
+		root.add(pnameField, gbc);
 
 
 		gbc.gridx 		= 6;
@@ -96,24 +99,16 @@ public class JReservation extends JPanel
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
 		gbc.insets		= new Insets(5, 5, 5, 5);
-		add(confirmation, gbc);
+		root.add(confirmation, gbc);
+
+		add(root);
 	}
 
-	public void setData(Object[] data)
+	public void setData(String[] data)
 	{
-		//roomNumber.setText(data[0].toString());
-		nameField.setText(data[1].toString());
-		pnameField.setText(data[2].toString());
-	}
-
-	public JButton getSubmitBtn() { return this.confirmation; }
-	public int getRoomNumber()	  { return (int) this.spin.getValue(); }
-
-	public void setRooms(Object[] data)
-	{
-		Integer[] d =  (Integer[]) data;
-
-		for(int i = 0; i < d.length; i++)
-			spin.setValue(d[i].intValue());
+		System.out.println(data[0]);
+		nameField.setText(data[0]);
+		pnameField.setText(data[1]);
+		this.revalidate();
 	}
 }
