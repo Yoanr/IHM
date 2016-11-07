@@ -59,7 +59,7 @@ public class Model {
 		return 0;
 	}
 
-
+// Methode pour la reservation : 
 	public String[][] getReservationByClient(String clientName) {
 		String DataReservation[][]=null;
 		if(openstmtBd()==0) {
@@ -102,10 +102,10 @@ public class Model {
 		return DataReservation;
 	}
 
-	public String validerReservation(int reservationId) {
+	public String validerReservation(int reservationId) { 
 		if(openstmtBd()==0) {
 			String requete="UPDATE Reservation SET Reservation.checkin = 1 Where idReservation = '" + reservationId+ "'";
-			String requete2="UPDATE Chambre SET etat = 1 Where Reservation= '" + reservationId+ "'";
+			String requete2="UPDATE Chambre SET isDirty = 1 Where Reservation= '" + reservationId+ "'";
 			try {
 				this.stmt.executeUpdate(requete);
 				this.stmt.executeUpdate(requete2);
@@ -127,7 +127,7 @@ public class Model {
 
 	public String[][] getAvailableRooms(int idChambre,String raccourci) {
 		String DataAvailablerooms[][]=null;
-		if(openstmtBd()==0) {
+		if(openstmtBd()==0) { // A RECODER 
 
 			String requete="SELECT * FROM Chambre INNER JOIN Categorie ON (Chambre.idChambre = Categorie.Chambre) Where etat = 0 AND idChambre != " + idChambre + " AND raccourci = '" + raccourci+ "'";
 			try {
@@ -160,7 +160,7 @@ public class Model {
 				closeBd();
 
 			}
-
+closestmtBd();
 		}
 
 		
@@ -170,7 +170,7 @@ public class Model {
 	public String modifierReservation(int reservationId,int idChambre) {
 		if(openstmtBd()==0) {
 			String requete="UPDATE Reservation SET Reservation.checkin = 1 SET Reservation.Chambre = '" + idChambre+ "' Where idReservation = '" + reservationId+ "'";
-			String requete2="UPDATE Chambre SET etat = 1 Where Reservation= '" + reservationId+ "'";
+			String requete2="UPDATE Chambre SET isDirty = 1 Where Reservation= '" + reservationId+ "'";
 			try {
 				this.stmt.executeUpdate(requete);
 				this.stmt.executeUpdate(requete2);
@@ -187,10 +187,95 @@ public class Model {
 		else {
 			return "Erreur interne (BD stmt)";
 		}
+		closestmtBd();
 		return "Votre modification à bien été pris en compte";
 	}
 
+// Methode pour le nettotage des chambres : 
 
+	public String[][] getChambreanettoyerbyNom(String prenompersonnel) {
+		Int id;
+		String chambreanettoyer[][]=null;
+		if(openstmtBd()==0) {
+			String requete="Select id from personnelNettoyage where Prenom = '" + prenompersonnel+ "'";
+
+			try {
+				ResultSet response=this.stmt.executeQuery(requete);
+				response.first();
+				id= rs.getInt("id");
+
+				try {
+					firstroom=id*10+1;
+					lastroom=id*10+10;
+					String requete2="Select idChambre,Chambre.Categorie,Categorie.raccourci 
+					from Chambre INNER JOIN Categorie ON (Chambre.Categorie = Categorie.id)
+					where idChambre >= '" + firstroom+ "' AND idChambre <= '" + lastroom + "' AND isDirty = 1 ";
+					ResultSet response=this.stmt.executeUpdate(requete2);
+					int size= 0;
+					if (response != null)   
+					{  
+						response.beforeFirst();  
+						response.last();  
+						size = response.getRow();
+						chambreanettoyer = new String[size][2];  
+						response.first();
+						int i=0;
+						while(response.next()) {
+
+							chambreanettoyer[i][0]=Integer.toString(response.getInt("idChambre"));
+							chambreanettoyer[i][1]=response.getInt("raccourci");
+							i++;
+						}
+
+					} 
+
+					try {
+						int j;
+						//Date du jour ici
+						Date date = new Date();
+					for(j=0;j<size;j++) {
+
+						String requete3="Select debut,duree from Reservation where idChambre = '" + Integer.parseInt(chambreanettoyer[0][j]) + "'";
+						ResultSet response=this.stmt.executeUpdate(requete3);
+						if (response != null)   
+					{ 
+						response.first();
+						date=getDate("debut");
+						duree=getDate("duree");
+// non fini ici , a continuer
+
+					}
+					}
+
+					}
+					catch(SQLException e) {
+						System.out.println("Probleme executeQuery requete3 ");
+						closestmtBd();
+						closeBd();
+						return chambreanettoyer;
+					}
+				}	
+				
+				catch(SQLException e) {
+					System.out.println("Probleme executeQuery requete2 ");
+					closestmtBd();
+					closeBd();
+					return chambreanettoyer;
+				}	
+			}
+			catch(SQLException e) {
+				System.out.println("Probleme executeQuery requete ");
+				closestmtBd();
+				closeBd();
+				return chambreanettoyer;
+			}
+
+
+
+		}
+		closestmtBd();
+		return chambreanettoyer;
+	}
 
 
 	public void closestmtBd() {
