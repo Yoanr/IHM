@@ -10,9 +10,9 @@ public class AccuelModel
 	private static AccuelModel instance = null;
 
 	private final String DRIVER_NAME = "org.mariadb.jdbc.Driver";
-	private final String DB_URL 	 = "jdbc:mariadb://dwarves.iut-fbleau.fr/rock";
-	private final String LOGIN 		 = "rock";
-	private final String  MDP		 = "rock";
+	private final String DB_URL 	 = "jdbc:mariadb://dwarves.iut-fbleau.fr/projetihm";
+	private final String LOGIN 		 = "projetihm";
+	private final String  MDP		 = "mhitejorp";
 
 	private Connection con;
 	private Statement stmt;
@@ -74,8 +74,8 @@ public class AccuelModel
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String dateStr = df.format(d);
 
-		String query = "Select Client, nomClient, prenomClient FROM Reservation INNER JOIN Client ON Reservation.Client = Client.idClient WHERE debut = '" + dateStr + "'";
-
+		//String query = "Select Client, nomClient, prenomClient FROM Reservation INNER JOIN Client ON Reservation.Client = Client.idClient WHERE debut = '" + dateStr + "'";
+		String query ="SELECT reservationfa.id, clientfa.nom, debut, duree, categoriefa.raccourci FROM reservationfa INNER JOIN clientfa ON reservationfa.referenceClient = clientfa.id INNER JOIN categoriefa ON reservationfa.referenceCategorie = categoriefa.id WHERE debut = '" + dateStr + "'";
 		try
 		{
 			openStatement();
@@ -110,7 +110,7 @@ public class AccuelModel
 	{
 		//name = "Duffet";
 		ArrayList<ArrayList<Object>> list = new ArrayList<ArrayList<Object>>();
-		String query = "Select Client, nomClient, prenomClient, debut FROM Reservation INNER JOIN Client ON Reservation.Client = Client.idClient WHERE nomClient = '" + name + "'";
+		String query = "SELECT reservationfa.id, clientfa.nom, debut, duree, categoriefa.raccourci FROM reservationfa INNER JOIN clientfa ON reservationfa.referenceClient = clientfa.id INNER JOIN categoriefa ON reservationfa.referenceCategorie = categoriefa.id WHERE clientfa.nom = '" + name + "'";
 
 		try
 		{
@@ -141,5 +141,5 @@ public class AccuelModel
 
 		return list;
 	}
-
+	
 }
