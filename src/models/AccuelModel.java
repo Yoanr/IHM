@@ -108,9 +108,9 @@ public class AccuelModel
 
 	public ArrayList<ArrayList<Object>> getReservationByName(String name)
 	{
-		name = "Duffet";
+		//name = "Duffet";
 		ArrayList<ArrayList<Object>> list = new ArrayList<ArrayList<Object>>();
-		String query = "Select Client, debut, nomClient, prenomClient FROM Reservation INNER JOIN Client ON Reservation.Client = Client.idClient WHERE nomClient = '" + name + "'";
+		String query = "Select Client, nomClient, prenomClient, debut FROM Reservation INNER JOIN Client ON Reservation.Client = Client.idClient WHERE nomClient = '" + name + "'";
 
 		try
 		{
@@ -138,8 +138,6 @@ public class AccuelModel
 			System.err.println(err.getMessage());
 			return null;
 		}
-
-		System.out.println(query);
 
 		return list;
 	}

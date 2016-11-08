@@ -18,24 +18,26 @@ import java.awt.event.FocusListener;
 
 public class SearchView extends JPanel
 {
-	private String APP_NAME 			= "Recherche de réservations";
-	private final String SEARCH_HINT 	= "Rechercher client par nom ...";
-	public  final String SEARCH_BTN_TXT	= "Rechercher";
-	private final String[] METADATA_TAB = { "Numéro", "Nom", "Prénom", "Confirmé" };
-	private  final String  EMPTY_ERR    = "Pour lancer une rechercher, merci de remplir le champ de texte";
+	private String APP_NAME 				= "Recherche de réservations";
+	private  final String SEARCH_HINT 		= "Rechercher client par nom ...";
+	public   final String SEARCH_BTN_TXT	= "Rechercher";
+	public	 final String REFRESH_TXT 		= "Rafraichir";
+	private  final String[] METADATA_TAB 	= { "Numéro", "Nom", "Prénom", "Confirmé" };
+	private  final String  EMPTY_ERR    	= "Pour lancer une rechercher, merci de remplir le champ de texte";
 
 	private JTextField 	searchField;
 	private JLabel		errorField;
 	private JButton 	searchButton;
+	private JButton		refreshButton;
 	private JCheckBoxTable 		dtm;
 	private JTable 		resultTab;
 	private JScrollPane resultView;
 
-	//private JReservation res;
-
 	private controller 	ctrl;
 	private GridBagConstraints gbc;
 	private JLabel 		lbl;
+
+	private ArrayList<ArrayList<Object>> cached;
 
 	public SearchView()
 	{
@@ -44,6 +46,7 @@ public class SearchView extends JPanel
 		searchField 			= new JTextField("\r", 20);
 		errorField				= new JLabel(EMPTY_ERR);
 		searchButton 			= new JButton(this.SEARCH_BTN_TXT);
+		refreshButton			= new JButton(this.REFRESH_TXT);
 		dtm 					= new JCheckBoxTable(METADATA_TAB, 0);
 		resultTab				= new JTable(this.dtm);
 		resultView				= new JScrollPane(this.resultTab);
@@ -52,21 +55,16 @@ public class SearchView extends JPanel
 
 		AccuelModel am = AccuelModel.getInstance();
 
-		ArrayList<ArrayList<Object>> tmp = am.getReservationsOfDay();
+		cached = am.getReservationsOfDay();
 
-		int s = tmp.size();
+		int s = cached.size();
 
 		for(int i = 0; i < s; i++)
-		{
-			dtm.addRow(tmp.get(i).toArray());
-		}
-
-
+			dtm.addRow(cached.get(i).toArray());
 		
+		// Listener de la selection
 		resultTab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
 		ListSelectionModel selectionModel = resultTab.getSelectionModel();
-
 		selectionModel.addListSelectionListener(new ListSelectionListener(){
 			public void valueChanged(ListSelectionEvent e)
 			{
@@ -74,20 +72,26 @@ public class SearchView extends JPanel
 				{
 					ArrayList<Object> list = new ArrayList<Object>();
 					int i = resultTab.getSelectedRow();
+					System.out.println(i);
+
+					if(i < 0) return;
+
 					int s = 0;
-					for(s = 0; s < METADATA_TAB.length - 1; s++)
+					for(s = 0; s < METADATA_TAB.length; s++)
 						list.add(resultTab.getModel().getValueAt(i, s));
 
-					String str[] = new String[(list.size())];
+					System.out.println(list);
+
+					/*String str[] = new String[(list.size())];
 					int index = 0;
 					for(Object v : list)
 					{
 						str[index] = (String) v;
 						index++;
-					}
+					}*/
 
 					JReservation r = new JReservation();
-					r.setData(str);
+					r.setData(list.toArray());
 					r.setVisible(true);
 				}
 			}
@@ -103,6 +107,7 @@ public class SearchView extends JPanel
 
 		// Setting up listeners ...
 		searchButton.addActionListener(ctrl);
+		refreshButton.addActionListener(ctrl);
 		searchField.addFocusListener(new FocusListener()
 		{
 			public void focusGained(FocusEvent e)
@@ -166,17 +171,30 @@ public class SearchView extends JPanel
 		add(errorField, gbc);
 
 		/* Mise en place du tableau de réservations */
+		gbc.gridx 		= 1;
 		gbc.gridy 		= 4;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
-		gbc.weightx		= 1.0;
-		gbc.weighty		= 1.0;
+		gbc.weightx		= 0.0;
+		gbc.weighty		= 0.0;
 		gbc.anchor		= GridBagConstraints.CENTER;
 		gbc.insets		= new Insets(5, 5, 5, 5);
 
 		add(resultView, gbc);
 
-		errorField.setVisible(false);
+		/* Mise en place du tableau de réservations */
+		gbc.gridx 		= 2;
+		gbc.gridy 		= 4;
+		gbc.gridheight 	= 1;
+		gbc.gridwidth	= 1;
+		gbc.weightx		= 0.0;
+		gbc.weighty		= 0.0;
+		gbc.anchor		= GridBagConstraints.PAGE_START;
+		gbc.insets		= new Insets(5, 5, 5, 5);
+
+		add(refreshButton, gbc);
+
+		errorField.setVisible(false); // Cacher les erreurs !
 		resultView.setVisible(true);
 	}
 
@@ -192,13 +210,6 @@ public class SearchView extends JPanel
 		av.setLocationRelativeTo(null);
 	}
 
-	/* Méthodes d'affichage pour la rétroaction */
-	public void showError()
-	{
-		errorField.setVisible(true);
-		refresh();
-	}
-
 	public void hidePreviousError()
 	{
 		if(this.errorField.isDisplayable()) errorField.setVisible(false);
@@ -208,5 +219,33 @@ public class SearchView extends JPanel
 	public JScrollPane getTab()
 	{
 		return this.resultView;
+	}
+
+	/* Méthodes d'affichage pour la rétroaction */
+	public void showError()
+	{
+		errorField.setVisible(true);
+		refresh();
+	}
+
+	/* Méthodes de "repaint" du tableau des réservations*/
+
+	public void removeAllRows()
+	{
+		int count = dtm.getRowCount();
+
+		for(int i = count - 1; i >= 0; i--)
+			dtm.removeRow(i);
+	}
+
+	public void updateFromCache()
+	{
+		if(cached == null) return;
+		if(dtm.getRowCount() > 0) removeAllRows();
+
+		int s = cached.size();
+
+		for(int i = 0; i < s; i++)
+			dtm.addRow(cached.get(i).toArray());
 	}
 }

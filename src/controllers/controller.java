@@ -58,7 +58,6 @@ public class controller implements ActionListener
 	 */
 	private void addRow(ArrayList<Object> row)
 	{
-		ArrayList<Object> list = new ArrayList<Object>();
 		JScrollPane tab = this.sv.getResultTab();
 
 		row.add(false);
@@ -86,6 +85,7 @@ public class controller implements ActionListener
 				return;
 			}
 
+			this.sv.removeAllRows();
 			this.sv.hidePreviousError(); // Au cas où, l'utilisateur ait fait une erreur avant
 
 			AccuelModel am = AccuelModel.getInstance();
@@ -94,6 +94,12 @@ public class controller implements ActionListener
 			for(int i = 0; i < l.size(); i++)
 				addRow(l.get(i));
 
+			this.sv.refresh();
+		}
+
+		if(e.getActionCommand().equals(sv.REFRESH_TXT))
+		{
+			this.sv.updateFromCache();
 			this.sv.refresh();
 		}
 	}

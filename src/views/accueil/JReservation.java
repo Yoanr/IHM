@@ -107,11 +107,10 @@ public class JReservation extends JFrame
 		pack();
 	}
 
-	public void setData(String[] data)
+	public void setData(Object[] data)
 	{
-		System.out.println(data[0]);
-		nameField.setText(data[0]);
-		pnameField.setText(data[1]);
+		nameField.setText((String)data[0]);
+		pnameField.setText((String)data[1]);
 		this.revalidate();
 		pack();
 	}

@@ -14,10 +14,10 @@ public class JCheckBoxTable extends DefaultTableModel
 	{
 		switch(column)
 		{
-			case 0: 	return Integer.class;
+			case 0: 	return String.class;
 			case 1: 	return String.class;
 			case 2: 	return String.class;
-			case 3: 	return Boolean.class;
+			case 3: 	return String.class;
 			default:	return String.class;
 		}
 	}
