@@ -2,6 +2,8 @@ package views;
 
 import views.accueil.*;
 
+import models.*;
+
 import java.awt.*;
 import javax.swing.*;
 

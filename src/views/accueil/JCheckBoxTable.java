@@ -21,4 +21,10 @@ public class JCheckBoxTable extends DefaultTableModel
 			default:	return String.class;
 		}
 	}
+
+	@Override
+	public boolean isCellEditable(int row, int col)
+	{
+		return false;
+	}
 }

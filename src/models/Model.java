@@ -129,6 +129,7 @@ public class Model {
 		String DataAvailablerooms[][]=null;
 		if(openstmtBd()==0) { // A RECODER 
 
+			// TODO: 
 			String requete="SELECT * FROM Chambre INNER JOIN Categorie ON (Chambre.idChambre = Categorie.Chambre) Where etat = 0 AND idChambre != " + idChambre + " AND raccourci = '" + raccourci+ "'";
 			try {
 				ResultSet response=this.stmt.executeQuery(requete);

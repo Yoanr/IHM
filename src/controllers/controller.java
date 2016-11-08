@@ -56,17 +56,14 @@ public class controller implements ActionListener
 	 * HACK: Wrapper pour ajouter un tableau de String retourné par la DB
 	 * ajout de la valeur faux par défaut si la réservartion n'est pas validée
 	 */
-	private void addRow(String[] row)
+	private void addRow(ArrayList<Object> row)
 	{
 		ArrayList<Object> list = new ArrayList<Object>();
 		JScrollPane tab = this.sv.getResultTab();
 
-		for(int i = 0; i < row.length; i++)
-			list.add(row[i]);
-		if(row.length == 3)
-			list.add(false);
+		row.add(false);
 
-		this.sv.getModel().addRow(list.toArray());
+		this.sv.getModel().addRow(row.toArray());
 	}
 
 	/**
@@ -79,12 +76,11 @@ public class controller implements ActionListener
 		if(e.getActionCommand().equals(sv.SEARCH_BTN_TXT))
 		{
 			String clientName = this.sv.getText();
-			String t[][] = {{"42", "58", "dsqdq"}}; //tableau de test ...
 
+			clientName.trim();
 
-			String reservations[][];
 			// Regarder si le champ est vide
-			if(clientName.trim().equals(""))
+			if(clientName.equals(""))
 			{
 				this.sv.showError();
 				return;
@@ -92,20 +88,13 @@ public class controller implements ActionListener
 
 			this.sv.hidePreviousError(); // Au cas où, l'utilisateur ait fait une erreur avant
 
-			/**
-			 * BUG: Vérifier si le model retourne bien le tableau au bon format
-			 */
+			AccuelModel am = AccuelModel.getInstance();
+			ArrayList<ArrayList<Object>> l = am.getReservationByName(clientName);
 
-			//m.loadBd();
-			//m.connectBdInterne();
-			//reservations = m.getReservationByClient(clientName);
+			for(int i = 0; i < l.size(); i++)
+				addRow(l.get(i));
 
-			for(int i = 0; i < 1/*reservations.length*/; i++)
-				addRow(t[i]);
-
-			this.sv.getResultTab().setVisible(true);
 			this.sv.refresh();
-			//m.closeBd();
 		}
 	}
 }

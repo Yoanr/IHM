@@ -2,6 +2,7 @@ package views.accueil;
 
 /* Customs imports */
 import controllers.*;
+import models.*;
 
 /* Java  imports */
 import javax.swing.*;
@@ -46,9 +47,22 @@ public class SearchView extends JPanel
 		dtm 					= new JCheckBoxTable(METADATA_TAB, 0);
 		resultTab				= new JTable(this.dtm);
 		resultView				= new JScrollPane(this.resultTab);
-
 		ctrl 					= new controller(this);
 
+
+		AccuelModel am = AccuelModel.getInstance();
+
+		ArrayList<ArrayList<Object>> tmp = am.getReservationsOfDay();
+
+		int s = tmp.size();
+
+		for(int i = 0; i < s; i++)
+		{
+			dtm.addRow(tmp.get(i).toArray());
+		}
+
+
+		
 		resultTab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		ListSelectionModel selectionModel = resultTab.getSelectionModel();
@@ -89,7 +103,6 @@ public class SearchView extends JPanel
 
 		// Setting up listeners ...
 		searchButton.addActionListener(ctrl);
-		//res.getSubmitBtn().addActionListener(ctrl);
 		searchField.addFocusListener(new FocusListener()
 		{
 			public void focusGained(FocusEvent e)
