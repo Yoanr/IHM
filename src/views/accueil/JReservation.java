@@ -35,11 +35,13 @@ public class JReservation extends JFrame
 		roomNumber 			= new JPanel();
 		nameLegend			= new JLabel("Nom");
 		pnameLegend 		= new JLabel("Prénom");
-		nameField			= new JTextField(20);
-		pnameField			= new JTextField(20);
+		nameField			= new JTextField();
+		pnameField			= new JTextField();
 		confirmation		= new JButton(JReservation.CONFIRMATION);
 		modification 		= new JButton(JReservation.MODIFICATION);
 		gbc 				= new GridBagConstraints();
+
+		//nameField.setPreferredSize(new Dimension(50, 50));
 
 		SpinnerModel s = new SpinnerNumberModel(0, 0, 0, 1);
 		spin = new JSpinner(s);
@@ -72,29 +74,29 @@ public class JReservation extends JFrame
 		gbc.insets		= new Insets(5, 5, 5, 5);
 		root.add(nameLegend, gbc);
 
-		gbc.gridx 		= 3;
-		gbc.gridy 		= 1;
+		gbc.gridx 		= 2;
+		gbc.gridy 		= 2;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
 		gbc.insets		= new Insets(5, 5, 5, 5);
 		root.add(nameField, gbc);
 
-		gbc.gridx 		= 4;
-		gbc.gridy 		= 1;
+		gbc.gridx 		= 2;
+		gbc.gridy 		= 3;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
 		gbc.insets		= new Insets(5, 5, 5, 5);
 		root.add(pnameLegend, gbc);
 
-		gbc.gridx 		= 5;
-		gbc.gridy 		= 1;
+		gbc.gridx 		= 2;
+		gbc.gridy 		= 4;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
 		gbc.insets		= new Insets(5, 5, 5, 5);
 		root.add(pnameField, gbc);
 
 
-		gbc.gridx 		= 6;
+		gbc.gridx 		= 3;
 		gbc.gridy 		= 1;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
@@ -102,6 +104,7 @@ public class JReservation extends JFrame
 		root.add(confirmation, gbc);
 
 		add(root);
+		pack();
 	}
 
 	public void setData(String[] data)
@@ -110,5 +113,14 @@ public class JReservation extends JFrame
 		nameField.setText(data[0]);
 		pnameField.setText(data[1]);
 		this.revalidate();
+		pack();
+	}
+
+	public void dummyTest()
+	{
+		nameField.setText("Poop");
+		pnameField.setText("Pee");
+		this.revalidate();
+		pack();
 	}
 }

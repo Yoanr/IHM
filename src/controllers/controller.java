@@ -42,13 +42,13 @@ public class controller implements ActionListener
 	/**
 	 * @deprecated la classe Model n'arrive pas à compiler ...
 	 */
-	private Model m;
+	//private Model m;
 	private SearchView sv;
 
 
 	public controller(SearchView sv)
 	{
-		this.m 	= new Model();
+		//this.m 	= new Model();
 		this.sv = sv;
 	}
 
