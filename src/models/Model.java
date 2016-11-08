@@ -1,4 +1,4 @@
-package models;
+/*package models;
 
 import java.sql.*;
 
@@ -25,7 +25,7 @@ public class Model {
 
 	public int connectBdInterne() {
 		try {
-			this.con =DriverManager.getConnection("jdbc:mariadb://ambarona.arda/rock","rock","toto");
+			this.con =DriverManager.getConnection("jdbc:mariadb://dwarves.arda/rock","rock","rock");
 		}
 		catch(SQLException e2) {
 			System.out.println("Probleme Connexion BD interne");
@@ -37,7 +37,7 @@ public class Model {
 
 	public int connectBdExterne() {
 		try {
-			this.con =DriverManager.getConnection("jdbc:mariadb://ambarona.arda/projetihm","projetihm","mhitejorp");
+			this.con =DriverManager.getConnection("jdbc:mariadb://dwarves.arda/projetihm","projetihm","mhitejorp");
 		}
 		catch(SQLException e2) {
 			System.out.println("Probleme Connexion BD externe");
@@ -64,7 +64,7 @@ public class Model {
 		String DataReservation[][]=null;
 		if(openstmtBd()==0) {
 
-			String requete="SELECT * FROM Reservation INNER JOIN Client ON (Reservation.Client = Client.idClient) INNER JOIN Chambre ON (Reservation.Chambre = Chambre.idChambre) INNER JOIN Categorie ON (Chambre.idChambre = Categorie.Chambre) WHERE Client.nomClient = '" + clientName + "'";
+			String requete="SELECT id,clientfa.nom,duree,debut,categoriefa.id,categoriefa.raccourci FROM reservationfa INNER JOIN clientfa ON (reservationfa.referenceClient = clientfa.id) INNER JOIN categoriefa ON (reservationfa.referenceCategorie = categoriefa.id) WHERE clientfa.nom = '" + clientName + "'";
 			try {
 				ResultSet response=this.stmt.executeQuery(requete);
 				int size= 0;
@@ -83,6 +83,7 @@ public class Model {
 						DataReservation[i][2]=response.getDate("debut").toString();
 						DataReservation[i][3]=Integer.toString(response.getInt("Chambre"));
 						DataReservation[i][4]=response.getString("raccourci");
+						DataReservation[i][5]=
 						i++;
 					}
 
@@ -298,3 +299,4 @@ closestmtBd();
 		}
 	}
 }
+*/

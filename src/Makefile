@@ -20,6 +20,8 @@ ACCUEIL_CLASSES = \
 	MainTest.java
 
 NETTOYAGE_CLASSES = \
+	$(ACCUEIL_MODELS_PATH)NettoyageModel.java \
+	MainTest2.java
 
 default: all
 
