@@ -1,14 +1,15 @@
 package views.accueil;
 
+import models.*;
+
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 import java.util.*;
 
 public class JReservation extends JFrame
 {
-	private JPanel root;
+	private JPanel 		root;
 	private JPanel 		roomNumber;
 	private JLabel		nameLegend;
 	private JLabel		pnameLegend;
@@ -17,6 +18,8 @@ public class JReservation extends JFrame
 	private JButton		confirmation;
 	private JButton 	modification;
 	private JSpinner	spin;
+
+	private ArrayList<Object> data;
 
 	public final String APP_NAME = "Réservation";
 
@@ -109,16 +112,15 @@ public class JReservation extends JFrame
 
 	public void setData(Object[] data)
 	{
-		nameField.setText((String)data[0]);
-		pnameField.setText((String)data[1]);
-		this.revalidate();
-		pack();
-	}
+		AccuelModel am = AccuelModel.getInstance();
 
-	public void dummyTest()
-	{
-		nameField.setText("Poop");
-		pnameField.setText("Pee");
+		System.out.println(String.valueOf(data[0]));
+
+		String s = String.valueOf(data[0]);
+		int l = Integer.parseInt(s);
+
+		//this.data = am.getReservationByID(l);
+
 		this.revalidate();
 		pack();
 	}
