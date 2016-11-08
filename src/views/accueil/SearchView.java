@@ -22,7 +22,7 @@ public class SearchView extends JPanel
 	private  final String SEARCH_HINT 		= "Rechercher client par nom ...";
 	public   final String SEARCH_BTN_TXT	= "Rechercher";
 	public	 final String REFRESH_TXT 		= "Rafraichir";
-	private  final String[] METADATA_TAB 	= { "Numéro", "Nom", "Prénom", "Confirmé" };
+	private  final String[] METADATA_TAB 	= { "ID réservation", "Nom", "Prénom", "Durée" };
 	private  final String  EMPTY_ERR    	= "Pour lancer une rechercher, merci de remplir le champ de texte";
 
 	private JTextField 	searchField;
@@ -79,16 +79,6 @@ public class SearchView extends JPanel
 					int s = 0;
 					for(s = 0; s < METADATA_TAB.length; s++)
 						list.add(resultTab.getModel().getValueAt(i, s));
-
-					System.out.println(list);
-
-					/*String str[] = new String[(list.size())];
-					int index = 0;
-					for(Object v : list)
-					{
-						str[index] = (String) v;
-						index++;
-					}*/
 
 					JReservation r = new JReservation();
 					r.setData(list.toArray());

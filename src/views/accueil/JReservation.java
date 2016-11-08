@@ -4,6 +4,7 @@ import models.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 import java.util.*;
 
@@ -17,8 +18,10 @@ public class JReservation extends JFrame
 	private JTextField	pnameField;
 	private JButton		confirmation;
 	private JButton 	modification;
-	private JSpinner	spin;
 
+	private int 		idReservation;
+
+	private JComboBox<Integer> selector;
 	private ArrayList<Object> data;
 
 	public final String APP_NAME = "Réservation";
@@ -44,17 +47,22 @@ public class JReservation extends JFrame
 		modification 		= new JButton(JReservation.MODIFICATION);
 		gbc 				= new GridBagConstraints();
 
-		//nameField.setPreferredSize(new Dimension(50, 50));
+		selector 			= new JComboBox<Integer>();
 
-		SpinnerModel s = new SpinnerNumberModel(0, 0, 0, 1);
-		spin = new JSpinner(s);
-		spin.setPreferredSize(new Dimension(100, 40));
+		roomNumber.add(selector);
 
-		Font f = ((JSpinner.NumberEditor) spin.getEditor()).getTextField().getFont();
+		confirmation.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				int i = (int) selector.getSelectedItem();
+				System.out.println(data.get(0));
+				System.out.println(idReservation);
 
-		((JSpinner.NumberEditor) spin.getEditor()).getTextField().setFont(f.deriveFont(45.0f));
+				AccuelModel am = AccuelModel.getInstance();
+				am.confirmReservation(i, idReservation);
+			}
+		});
 
-		roomNumber.add(spin);
 		root.setLayout(new GridBagLayout());
 
 		initUI();
@@ -70,10 +78,11 @@ public class JReservation extends JFrame
 		gbc.insets		= new Insets(5, 5, 5, 5);
 		root.add(roomNumber, gbc);
 
-		gbc.gridx 		= 2;
-		gbc.gridy 		= 1;
+		gbc.gridx 		= 1;
+		gbc.gridy 		= 2;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
+		gbc.anchor 		= GridBagConstraints.CENTER;
 		gbc.insets		= new Insets(5, 5, 5, 5);
 		root.add(nameLegend, gbc);
 
@@ -81,26 +90,29 @@ public class JReservation extends JFrame
 		gbc.gridy 		= 2;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
+		gbc.anchor 		= GridBagConstraints.LINE_END;
 		gbc.insets		= new Insets(5, 5, 5, 5);
 		root.add(nameField, gbc);
+
+		gbc.gridx 		= 1;
+		gbc.gridy 		= 3;
+		gbc.gridheight 	= 1;
+		gbc.gridwidth	= 1;
+		gbc.anchor 		= GridBagConstraints.CENTER;
+		gbc.insets		= new Insets(5, 5, 5, 5);
+		root.add(pnameLegend, gbc);
 
 		gbc.gridx 		= 2;
 		gbc.gridy 		= 3;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
-		gbc.insets		= new Insets(5, 5, 5, 5);
-		root.add(pnameLegend, gbc);
-
-		gbc.gridx 		= 2;
-		gbc.gridy 		= 4;
-		gbc.gridheight 	= 1;
-		gbc.gridwidth	= 1;
+		gbc.anchor 		= GridBagConstraints.LINE_END;
 		gbc.insets		= new Insets(5, 5, 5, 5);
 		root.add(pnameField, gbc);
 
 
-		gbc.gridx 		= 3;
-		gbc.gridy 		= 1;
+		gbc.gridx 		= 1;
+		gbc.gridy 		= 4;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
 		gbc.insets		= new Insets(5, 5, 5, 5);
@@ -114,12 +126,25 @@ public class JReservation extends JFrame
 	{
 		AccuelModel am = AccuelModel.getInstance();
 
-		System.out.println(String.valueOf(data[0]));
-
 		String s = String.valueOf(data[0]);
 		int l = Integer.parseInt(s);
 
-		//this.data = am.getReservationByID(l);
+		idReservation = l;
+
+		this.data = am.getReservationByID(l);
+
+		System.out.println(this.data);
+
+		nameField.setText(String.valueOf(this.data.get(0)));
+		pnameField.setText(String.valueOf(this.data.get(1)));
+
+		ArrayList<Integer> p = am.getAvailablesRooms(Integer.parseInt(String.valueOf(this.data.get(4))));
+
+		for(int i = 0; i < p.size(); i++)
+			selector.addItem(p.get(i));
+
+		if(p.size() > 0)
+			selector.setSelectedIndex(0);
 
 		this.revalidate();
 		pack();
