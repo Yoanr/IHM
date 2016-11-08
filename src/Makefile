@@ -21,6 +21,8 @@ ACCUEIL_CLASSES = \
 
 NETTOYAGE_CLASSES = \
 	$(ACCUEIL_MODELS_PATH)NettoyageModel.java \
+	$(ACCUEIL_CTRLS_PATH)ControllerNettoyage.java \
+	$(ROOT_VIEWS_PATH)NettoyageView.java \
 	MainTest2.java
 
 default: all

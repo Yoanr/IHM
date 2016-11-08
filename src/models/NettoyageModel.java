@@ -98,6 +98,8 @@ public class NettoyageModel
 		}
 	}
 
+public 
+//implementer le boolean isDirty
 	// Methode pour le nettotage des chambres : 
 	public int getIdEmployer(String prenompersonnel) {
 		int id;
@@ -166,8 +168,8 @@ openStatement();
 	try {
 		int firstroom=(idemployer*10)-9; 
 		int lastroom=idemployer*10;
-		String requete="Select idChambre,reservation from Chambre where idChambre >= '" + firstroom+ "' AND idChambre <= '" + lastroom + "' AND reservation =! 0 ";
-		ResultSet rs=this.stmt.executeUpdate(requete);
+		String requete="Select idChambre,reservation from Chambre where idChambre >= '" + firstroom+ "' AND idChambre <= '" + lastroom + "' AND reservation =! 0 AND isDirty=1 ";
+		ResultSet rs=this.stmt.executeQuery(requete);
 		int size= 0;
 		if (rs != null)   
 		{  
@@ -195,6 +197,22 @@ openStatement();
 
 closestmtBd();
 	return chambreanettoyer;
+}
+
+public void nettoyageFait(int idChambre) {
+	openStatement();
+	String requete="UPDATE Chambre SET isDirty = 0 WHERE idChambre '" + idChambre + "'";
+	try {
+	this.stmt.executeUpdate(requete);
+
+}
+catch(SQLException e) {
+		System.out.println("Probleme executeQuery nettoyageFait");
+		closestmtBd();
+		closeBd();
+		return;
+	}
+	return;
 }
 
 
