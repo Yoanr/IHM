@@ -16,45 +16,60 @@ import javax.swing.*;
 public class ControllerNettoyage implements ActionListener
 {
 	private NettoyageView nettoview;
-	public ControllerNettoyage(NettoyageView nv )
+	private String prenom;
+	private int idEmploye;
+	private String status;
+	public ControllerNettoyage(NettoyageView nv, String prenomm,String statu)
 	{
 		this.nettoview=nv;
+		this.prenom=prenomm;
+		this.status=statu;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		NettoyageModel am = NettoyageModel.getInstance();
-		
+		if(Integer.parseInt(e.getActionCommand())==-1) {
+			JButton a =(JButton) e.getSource();
+
+			String strchambre=a.getText();
+			int idchambre=Integer.parseInt(strchambre);
+
+			int choice=nettoview.etesvoussur();
+
+
+			if (choice == JOptionPane.YES_OPTION)
+			{
+				am.nettoyageFait(idchambre);
+				String[][] chambreanettoyer=am.recupChambreEmployer(idEmploye);
+				System.out.println("here");
+				nettoview.afficherNettoyage(chambreanettoyer,prenom);
+				this.status="new";
+			}
+
+		}
+		if(Integer.parseInt(e.getActionCommand())==-2) {
+			
+		}
+		if(this.status=="new") {
+
+
 			//recuperer pseudo dans la view;
 			 JButton a =(JButton) e.getSource(); // adresse de l'objet => cast en jbutton
 
 			String prenom=a.getText(); //recuperer le prenom de la personne
 
-					
-			int idpersonnel=Integer.parseInt(e.getActionCommand());
 
+			int idpersonnel=Integer.parseInt(e.getActionCommand());
+			this.idEmploye=idpersonnel;
 			String[][] chambreanettoyer=am.recupChambreEmployer(idpersonnel);
 
-			nettoview.afficherNettoyage(chambreanettoyer);
-
-			 //Afficher mes chambre dans la vue
-		/*
-		if(e.getActionCommand().equals("Choix de ma chambre"))
-		{
-			// recuperer l'id de la reservation
-			int idChambre=1;
-			am.nettoyageFait(idChambre);
+			nettoview.afficherNettoyage(chambreanettoyer,prenom);
 		}
-		if(e.getActionCommand().equals("Changer autre chambre")) {
+		
 
-		//recuperer valeur JTEXTFIELD 
-			int valuejtextfield=1;
-			if(valuejtextfield >0 && valuejtextfield <=100) {
-				am.nettoyageFait(valuejtextfield);
-			}
-
-
-		}*/
 
 	}
+
+
 }

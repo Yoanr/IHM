@@ -242,7 +242,7 @@ int size= 0;
 
     public void nettoyageFait(int idChambre) {
     	openStatement();
-    	String requete="UPDATE Chambre SET isDirty = 0 WHERE idChambre '" + idChambre + "'";
+    	String requete="UPDATE Chambre SET isDirty = 0 WHERE idChambre ='" + idChambre + "'";
     	try {
     		this.stmt.executeUpdate(requete);
 

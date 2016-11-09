@@ -25,6 +25,7 @@ ACCUEIL_CLASSES = \
 NETTOYAGE_CLASSES = \
 	$(ACCUEIL_MODELS_PATH)NettoyageModel.java \
 	$(ACCUEIL_CTRLS_PATH)ControllerNettoyage.java \
+	$(ACCUEIL_CTRLS_PATH)ControllerNettoyage2.java \
 	$(ROOT_VIEWS_PATH)NettoyageView.java \
 	MainNettoyage.java
 

@@ -19,18 +19,15 @@ import java.awt.event.FocusListener;
 
 public class SearchViewNettoyage extends JPanel
 {
-	private String APP_NAME 				= "Nettoyage Hotel";
-	private  final String SEARCH_HINT 		= "Rechercher salarié par prénom ...";
-	private  final String  EMPTY_ERR    	= "Pour lancer une rechercher, merci de remplir le champ de texte";
-	public   final String SEARCH_BTN_TXT	= "Rechercher";
-	public	 final String REFRESH_TXT 		= "Rafraichir";
+
 
 	public SearchViewNettoyage(NettoyageView nv)
 	{
 		NettoyageModel am = NettoyageModel.getInstance();
 		String[][] listeemploye=am.getEmployer();
-		
-		ControllerNettoyage event = new ControllerNettoyage(nv);
+		GridLayout gestionnaire = new GridLayout(2,5);
+		this.setLayout(gestionnaire);
+		ControllerNettoyage event = new ControllerNettoyage(nv,"","new");
 		for(int i=0;i<listeemploye.length;i++) {
 			
 			JButton bouton = new JButton(listeemploye[i][1]);

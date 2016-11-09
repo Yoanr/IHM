@@ -1,7 +1,7 @@
 package views.nettoyage;
 
 /* Customs imports */
-//import controllers.*;//setLayout(new GridBagLayout());
+//import controllers.*;
 import views.*;
 
 import java.awt.color.*;
@@ -12,11 +12,10 @@ import javax.swing.event.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import views.NettoyageView;
 import java.util.*;
 import controllers.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+
 
 public class ChoixNettoyage extends JPanel
 {
@@ -27,32 +26,53 @@ public class ChoixNettoyage extends JPanel
 	public	 final String REFRESH_TXT 		= "Rafraichir";*/
 	
 	private String[][] tableauchambre;
+   private NettoyageView nv;
 
-	public ChoixNettoyage(NettoyageView nv)
+	public ChoixNettoyage(NettoyageView nview)
 	{
-		
-		
-
+				this.nv=nview;
 
 	}
-	public void setData(String[][] tableauchambreanettoyer) {
+	public void setData(String[][] tableauchambreanettoyer,String prenom) {
+
 		tableauchambre=tableauchambreanettoyer;
 		this.removeAll();
+		
+		GridLayout gestionnaire = new GridLayout(13,2);
+		
+		this.setLayout(gestionnaire);
+		
+		
+		ControllerNettoyage event = new ControllerNettoyage(this.nv,prenom,"refresh");
+		JLabel title0 = new JLabel("salarie:");
+		JLabel prenomsalarie = new JLabel(prenom);
+		JLabel title1 = new JLabel("num");
+		JLabel title2 = new JLabel("Status");
+		
+		
+		this.add(title0);
+		this.add(prenomsalarie);
+		this.add(title1);
+		this.add(title2);
 		for(int i=0;i<tableauchambre.length;i++) {
-			NettoyageModel am = NettoyageModel.getInstance();
-			System.out.println(tableauchambre[i][0]);
-			System.out.println(tableauchambre[i][1]);
-
+			//NettoyageModel am = NettoyageModel.getInstance();
 			JButton bouton = new JButton(tableauchambre[i][0]);
 			JLabel infoclient = new JLabel(tableauchambre[i][1]);
-			JLabel trait = new JLabel("/");
 			this.add(bouton);
 			this.add(infoclient);
-			this.add(trait);
-
+			bouton.setActionCommand("-1");
+			bouton.addActionListener(event);
 			bouton.setForeground(Color.RED);
 		}
-
+		
+		JLabel jl = new JLabel("Une autre chambre ? : ");
+		this.add(jl);
+		JTextField jf = new JTextField();
+		this.add(jf);
+		JButton valider2 = new JButton("nettoyer Manuel");
+		ControllerNettoyage2 event2 = new ControllerNettoyage2(jf,this.nv);
+		this.add(valider2);
+		valider2.addActionListener(event2);
 		this.revalidate();
 	}
 

@@ -15,8 +15,8 @@ public class NettoyageView extends JFrame
 	public NettoyageView()
 	{
 		super("Nettoyage Express");
-
-		this.setSize(350, 350);
+		//this.setResizable(false);
+		this.setSize(450, 350);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		layout = new CardLayout();
 		cards = new JPanel(); 
@@ -45,9 +45,30 @@ public class NettoyageView extends JFrame
 this.layout.show(cards,jpanelname);
 revalidate();
 	}
-	public void afficherNettoyage(String[][] tableauchambreanettoyer) {
+	public void afficherNettoyage(String[][] tableauchambreanettoyer,String prenom) {
+		System.out.println("here");
 		swap("choixnettoyage");
-		this.choixnettoyage.setData(tableauchambreanettoyer);
+		this.choixnettoyage.setData(tableauchambreanettoyer,prenom);
+		this.setSize(170, 550);
+		//this.setResizable(false);
+		System.out.println("here");
+
 		revalidate();
 	}
+
+public int etesvoussur() {
+	int choice = JOptionPane.showOptionDialog(null, 
+      "Avez vous bien nettoye cette chambre ?", 
+      "Avez vous bien nettoye cette chambre ?", 
+      JOptionPane.YES_NO_OPTION, 
+      JOptionPane.QUESTION_MESSAGE, 
+      null, null, null);
+return choice;
+}
+public void error() {
+	JOptionPane.showMessageDialog(this,
+    "Enter a number beetwin 1 & 100.",
+    "Please",
+    JOptionPane.ERROR_MESSAGE);
+}
 }
