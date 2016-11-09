@@ -2,6 +2,7 @@ package controllers;
 
 import views.accueil.*;
 import models.*;
+import views.*;
 
 import java.util.ArrayList;
 import java.awt.event.*;
@@ -14,39 +15,46 @@ import javax.swing.*;
 */
 public class ControllerNettoyage implements ActionListener
 {
-public ControllerNettoyage()
+	private NettoyageView nettoview;
+	public ControllerNettoyage(NettoyageView nv )
 	{
-		
+		this.nettoview=nv;
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		NettoyageModel am = NettoyageModel.getInstance();
-
-		if(e.getActionCommand().equals("Rechercher"))
-		{
+		
 			//recuperer pseudo dans la view;
-			String pseudoPersonnel;
-			
-			int idPersonnel= am.getIdEmployer(pseudoPersonnel); 
-			// je recupere l'id du salarié
-			String[][] chambreanettoyer=recupChambreEmployer();
+			 JButton a =(JButton) e.getSource(); // adresse de l'objet => cast en jbutton
+
+			String prenom=a.getText(); //recuperer le prenom de la personne
+
+					
+			int idpersonnel=Integer.parseInt(e.getActionCommand());
+
+			String[][] chambreanettoyer=am.recupChambreEmployer(idpersonnel);
+
+			nettoview.afficherNettoyage(chambreanettoyer);
+
 			 //Afficher mes chambre dans la vue
-		}
+		/*
 		if(e.getActionCommand().equals("Choix de ma chambre"))
 		{
 			// recuperer l'id de la reservation
-			int idChambre;
-			nettoyageFait(idChambre);
+			int idChambre=1;
+			am.nettoyageFait(idChambre);
 		}
 		if(e.getActionCommand().equals("Changer autre chambre")) {
 
 		//recuperer valeur JTEXTFIELD 
-		int valuejtextfield;
-		if(valuejtextfield >0 && <=100) {
-		nettoyageFait(valuejtextfield);
-		}
+			int valuejtextfield=1;
+			if(valuejtextfield >0 && valuejtextfield <=100) {
+				am.nettoyageFait(valuejtextfield);
+			}
 
+
+		}*/
 
 	}
-
 }

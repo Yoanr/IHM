@@ -15100,11 +15100,11 @@
 													"containerExtending": false,
 													"left": 71,
 													"top": 5,
-													"width": 217,
+													"width": 192,
 													"height": 13,
 													"autoResize": false,
 													"underline": false,
-													"text": "ihm Diagramme sequence  nettoyage",
+													"text": "Diagramme sequence  nettoyage",
 													"horizontalAlignment": 2,
 													"verticalAlignment": 5
 												},
