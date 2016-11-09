@@ -3,6 +3,15 @@ package views.accueil;
 import javax.swing.table.*;
 import javax.swing.event.*;
 
+/**
+ * Classe JCheckBoxTable
+ * Cette classe a été à l'origine utilisée pour avoir un JCheckBox
+ * Cependant depuis il n'a plus été utilisé
+ *
+ * HACK: Cette classe pour réavoir un JCheckBox dans getColumnClass
+ * faites un case de l'index que vous souhaitez avec le statement: return Boolean.class;
+ */
+
 public class JCheckBoxTable extends DefaultTableModel
 {
 	public JCheckBoxTable(String[] meta, int rowAdded)
@@ -22,6 +31,11 @@ public class JCheckBoxTable extends DefaultTableModel
 		}
 	}
 
+	/**
+	 * Méthode pour rendre une case du JTable non éditable
+	 * @param int row: le numéro de ligne, int col: le numéro de colonne
+	 * @return boolean détermine s'il faut éditer la case ou non
+	 */
 	@Override
 	public boolean isCellEditable(int row, int col)
 	{

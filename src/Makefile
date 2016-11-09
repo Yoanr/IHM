@@ -30,7 +30,7 @@ NETTOYAGE_CLASSES = \
 
 default: all
 
-accueil: $(ACCUEIL_CLASSES:.java=.class) make-accueil-jar
+accueil: $(ACCUEIL_CLASSES:.java=.class) make-accueil-jar clean-accueil
 nettoyage: $(NETTOYAGE_CLASSES:.java=.class)
 
 all: accueil nettoyage
@@ -43,7 +43,7 @@ clean-accueil:
 	$(RM) *.class
 
 clean-nettoyage:
-	$(RM) $(NETTOYAGE_VIEW_PA	TH)*.class
+	$(RM) $(NETTOYAGE_VIEW_PATH)*.class
 	$(RM) $(NETTOYAGE_CTRLS_PATH)*.class
 
 clean: clean-accueil clean-nettoyage

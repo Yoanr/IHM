@@ -4,6 +4,16 @@ import java.sql.*;
 import java.util.*;
 import java.text.*;
 
+/**
+ * Classe AccuielModel
+ * @author Martin Barreau
+ * 
+ * Classe permettant d'accéder aux bases de données
+ * cette classe est soumise à la règle du design pattern singleton
+ * la classe devient accessible de manière globale dans tout le programme,
+ * pour éviter de polluer les connexions à la BD
+ */
+
 public class AccueilModel
 {
 
@@ -29,12 +39,6 @@ public class AccueilModel
 	private Statement stmt;
 	private Statement internal_stmt;
 
-	/**
-	 * TODO: Ajouter libération de chambre,
-	 * prendre les chambres ou reservation != 0
-	 * check dates et update if needed
-	 */
-
 	public static AccueilModel getInstance()
 	{
 		if(instance == null)
@@ -45,11 +49,6 @@ public class AccueilModel
 
 	public String getStrDate() { return this.dateStr; }
 	public void setStrDate(String str) { this.dateStr = str; }
-
-	/*public boolean isSameDay()
-	{
-
-	}*/
 
 	private AccueilModel()
 	{
@@ -160,7 +159,6 @@ public class AccueilModel
 
 	public ArrayList<ArrayList<Object>> getReservationByName(String name)
 	{
-		//name = "Duffet";
 		ArrayList<ArrayList<Object>> list = new ArrayList<ArrayList<Object>>();
 		String query = "SELECT reservationfa.id, clientfa.nom, debut, duree, categoriefa.raccourci FROM reservationfa INNER JOIN clientfa ON reservationfa.referenceClient = clientfa.id INNER JOIN categoriefa ON reservationfa.referenceCategorie = categoriefa.id WHERE clientfa.nom = '" + name + "'";
 
@@ -257,7 +255,7 @@ public class AccueilModel
 		return result;
 	}
 
-	public void confirmReservation(int idChambre, int idReservation)
+	public boolean confirmReservation(int idChambre, int idReservation)
 	{
 		String query = "UPDATE Chambre SET reservation = " + idReservation + ", isDirty = 1 WHERE idChambre = " + idChambre;
 
@@ -270,7 +268,8 @@ public class AccueilModel
 		catch(SQLException err)
 		{
 			System.err.println(err.getMessage());
-			return;
+			return false;
 		}
+		return false;
 	}
 }

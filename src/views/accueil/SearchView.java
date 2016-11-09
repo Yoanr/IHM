@@ -67,6 +67,9 @@ public class SearchView extends JPanel
 		initControllers();
 	}
 
+	/**
+	 * Méthode pour initialiser la mise en forme de l'interface
+	 */
 	private void initUI()
 	{
 		errorField.setForeground(Color.RED);
@@ -144,10 +147,13 @@ public class SearchView extends JPanel
 
 		add(refreshButton, gbc);
 
-		errorField.setVisible(false); // Cacher les erreurs !
+		errorField.setVisible(false); // Cacher le champ d'erreur
 		resultView.setVisible(true);
 	}
 
+	/**
+	 * Méthode de création et/ou définitions de controlleurs
+	 */
 	private void initControllers()
 	{
 		searchButton.addActionListener(ctrl);
@@ -195,6 +201,9 @@ public class SearchView extends JPanel
 	public String getText() 						{ return this.searchField.getText(); }
 	public JScrollPane getResultTab() 				{ return this.resultView; }
 	public JCheckBoxTable getModel()				{ return this.dtm; }
+	public JScrollPane getTab() 					{ return this.resultView; }
+
+	/* Méthodes d'affichage pour la rétroaction */
 	
 	public void refresh()
 	{
@@ -209,16 +218,13 @@ public class SearchView extends JPanel
 		refresh();
 	}
 
-	public JScrollPane getTab() { return this.resultView; }
-
-	/* Méthodes d'affichage pour la rétroaction */
 	public void showError()
 	{
 		errorField.setVisible(true);
 		refresh();
 	}
 
-	/* Méthodes de "repaint" du tableau des réservations*/
+	/* Méthodes de rafraichissement du tableau des réservations */
 
 	public void removeAllRows()
 	{

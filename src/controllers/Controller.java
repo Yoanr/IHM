@@ -14,13 +14,11 @@ public class Controller implements ActionListener
 
 	public Controller(SearchView sv)
 	{
-		//this.m 	= new Model();
 		this.sv = sv;
 	}
 
 	/**
 	 * HACK: Wrapper pour ajouter un tableau de String retourné par la DB
-	 * ajout de la valeur faux par défaut si la réservartion n'est pas validée
 	 */
 	private void addRow(ArrayList<Object> row)
 	{
@@ -52,7 +50,7 @@ public class Controller implements ActionListener
 			}
 
 			this.sv.removeAllRows();
-			this.sv.hidePreviousError(); // Au cas où, l'utilisateur ait fait une erreur avant
+			this.sv.hidePreviousError(); // Au cas où, l'utilisateur a fait une erreur avant
 
 			AccueilModel am = AccueilModel.getInstance();
 			ArrayList<ArrayList<Object>> l = am.getReservationByName(clientName);

@@ -5,8 +5,13 @@ import models.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
 import java.util.*;
+
+/**
+ * Classe JReservation
+ * @author Martin Barreau
+ * Classe permettant d'afficher une réservation et de la confirmer avec des appels de DB
+ */
 
 public class JReservation extends JFrame
 {
@@ -142,6 +147,13 @@ public class JReservation extends JFrame
 		pack();
 	}
 
+	/**
+	 * @param Object[] Objet contenant les données pour "nourrir" la vue
+	 * BUG: CastExceptions lancées durant l'extraction
+	 * HACK: Ce setter peut lancer des exceptions de transtypage
+	 * ce problème est principalement dû au fait que l'extraction des données
+	 * ce font sur des indexs spécifiques, ne pas oublier à bien former le tableau
+	 */
 	public void setData(Object[] data)
 	{
 		AccueilModel am = AccueilModel.getInstance();
