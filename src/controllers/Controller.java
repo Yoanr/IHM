@@ -1,32 +1,3 @@
-//ordre d'exec des fonctions : 
-
-/*Model m = new Model();
-m.loadBd();
-m.connectBDInterne();
-// dans le listener oublie pas de recupere le nom du client
-String tableaureservation = new String[][];
-tableaureservation=m.getReservationByClient(CLIENTNAME);
-// OCCUPE TOI DE LAFFICHER DANS LA VUE ;D
-
-// ENSUITE IL CHOISIE EN COCHANT QUELLE RESERVATION CHOISIR ( recupere l'id reservation selectionner)
-
-if(button=="valider"){
-String responsemessage=validerReservation(IDRESERVATION)
-//afficher responsemessage dans une bulle dans la vue
-}
-
-else {
-	String tableauchambredispo = new String[][];
-tableauchambredispo=getAvailableRooms(IDCHAMBRE_NON_DESIRER,RACCOURCI_CONTRAINTE);
-//afficher dans la vue la liste des chambres disponibles
-// ENSUIE IL CHOISIE EN COCHANT LA CHAMBRE (recupere idchambre choisie)
- String responsemessage=modifierReservation(IDRESERVATION,IDCHAMBRE_CHOISIE);
- //afficher responsemessage dans une bulle dans la vue
-}
-
-//avant que le progamme se ferme 
-m.closeBd();*/
-
 package controllers;
 
 import views.accueil.*;
@@ -37,16 +8,11 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 
-public class controller implements ActionListener
+public class Controller implements ActionListener
 {
-	/**
-	 * @deprecated la classe Model n'arrive pas à compiler ...
-	 */
-	//private Model m;
 	private SearchView sv;
 
-
-	public controller(SearchView sv)
+	public Controller(SearchView sv)
 	{
 		//this.m 	= new Model();
 		this.sv = sv;
@@ -88,7 +54,7 @@ public class controller implements ActionListener
 			this.sv.removeAllRows();
 			this.sv.hidePreviousError(); // Au cas où, l'utilisateur ait fait une erreur avant
 
-			AccuelModel am = AccuelModel.getInstance();
+			AccueilModel am = AccueilModel.getInstance();
 			ArrayList<ArrayList<Object>> l = am.getReservationByName(clientName);
 
 			for(int i = 0; i < l.size(); i++)

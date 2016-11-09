@@ -12,8 +12,8 @@ NETTOYAGE_VIEW_PATH=views/nettoyage/
 NETTOYAGE_CTRLS_PATH=controllers/nettoyage/
 
 ACCUEIL_CLASSES = \
-	$(ACCUEIL_MODELS_PATH)AccuelModel.java \
-	$(ACCUEIL_CTRLS_PATH)controller.java \
+	$(ACCUEIL_MODELS_PATH)AccueilModel.java \
+	$(ACCUEIL_CTRLS_PATH)Controller.java \
 	$(ACCUEIL_VIEWS_PATH)JReservation.java \
 	$(ACCUEIL_VIEWS_PATH)SearchView.java \
 	$(ROOT_VIEWS_PATH)AccueilView.java \

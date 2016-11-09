@@ -33,7 +33,7 @@ public class SearchView extends JPanel
 	private JTable 		resultTab;
 	private JScrollPane resultView;
 
-	private controller 	ctrl;
+	private Controller 	ctrl;
 	private GridBagConstraints gbc;
 	private JLabel 		lbl;
 
@@ -50,10 +50,10 @@ public class SearchView extends JPanel
 		dtm 					= new JCheckBoxTable(METADATA_TAB, 0);
 		resultTab				= new JTable(this.dtm);
 		resultView				= new JScrollPane(this.resultTab);
-		ctrl 					= new controller(this);
+		ctrl 					= new Controller(this);
 
 
-		AccuelModel am = AccuelModel.getInstance();
+		AccueilModel am = AccueilModel.getInstance();
 
 		cached = am.getReservationsOfDay();
 

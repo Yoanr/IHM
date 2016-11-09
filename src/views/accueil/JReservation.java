@@ -58,7 +58,7 @@ public class JReservation extends JFrame
 				System.out.println(data.get(0));
 				System.out.println(idReservation);
 
-				AccuelModel am = AccuelModel.getInstance();
+				AccueilModel am = AccueilModel.getInstance();
 				am.confirmReservation(i, idReservation);
 			}
 		});
@@ -124,7 +124,7 @@ public class JReservation extends JFrame
 
 	public void setData(Object[] data)
 	{
-		AccuelModel am = AccuelModel.getInstance();
+		AccueilModel am = AccueilModel.getInstance();
 
 		String s = String.valueOf(data[0]);
 		int l = Integer.parseInt(s);

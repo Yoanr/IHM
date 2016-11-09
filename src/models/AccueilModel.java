@@ -4,10 +4,10 @@ import java.sql.*;
 import java.util.*;
 import java.text.*;
 
-public class AccuelModel
+public class AccueilModel
 {
 
-	private static AccuelModel instance = null;
+	private static AccueilModel instance = null;
 
 	private final String DRIVER_NAME 	= "org.mariadb.jdbc.Driver";
 
@@ -25,15 +25,15 @@ public class AccuelModel
 	private Statement stmt;
 	private Statement internal_stmt;
 
-	public static AccuelModel getInstance()
+	public static AccueilModel getInstance()
 	{
 		if(instance == null)
-			instance = new AccuelModel();
+			instance = new AccueilModel();
 
 		return instance;
 	}
 
-	private AccuelModel()
+	private AccueilModel()
 	{
 		try
 		{
