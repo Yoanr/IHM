@@ -20,10 +20,20 @@ public class AccueilModel
 	private final String LOGIN 		 	= "projetihm";
 	private final String  MDP		 	= "mhitejorp";
 
+	private java.sql.Date dateOfDay;
+	private java.util.Date dateCompare;
+	private String 		  dateStr;
+
 	private Connection con;
 	private Connection internal_con;
 	private Statement stmt;
 	private Statement internal_stmt;
+
+	/**
+	 * TODO: Ajouter libération de chambre,
+	 * prendre les chambres ou reservation != 0
+	 * check dates et update if needed
+	 */
 
 	public static AccueilModel getInstance()
 	{
@@ -33,8 +43,19 @@ public class AccueilModel
 		return instance;
 	}
 
+	public String getStrDate() { return this.dateStr; }
+	public void setStrDate(String str) { this.dateStr = str; }
+
+	/*public boolean isSameDay()
+	{
+
+	}*/
+
 	private AccueilModel()
 	{
+		dateOfDay 	= new java.sql.Date((new java.util.Date()).getTime());
+		//dateCompare = new java.util.Date();
+		dateStr		= dateOfDay.toString();
 		try
 		{
 			Class.forName(this.DRIVER_NAME);
@@ -106,11 +127,6 @@ public class AccueilModel
 		ArrayList<ArrayList<Object>> list = new ArrayList<ArrayList<Object>>();
 		ArrayList<Object> tmp = new ArrayList<Object>();
 
-		java.sql.Date d = new java.sql.Date((new java.util.Date()).getTime());
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		String dateStr = df.format(d);
-
-		//String query = "Select Client, nomClient, prenomClient FROM Reservation INNER JOIN Client ON Reservation.Client = Client.idClient WHERE debut = '" + dateStr + "'";
 		String query ="SELECT reservationfa.id, clientfa.nom, debut, duree, categoriefa.raccourci FROM reservationfa INNER JOIN clientfa ON reservationfa.referenceClient = clientfa.id INNER JOIN categoriefa ON reservationfa.referenceCategorie = categoriefa.id WHERE debut = '" + dateStr + "'";
 		try
 		{
@@ -166,6 +182,8 @@ public class AccueilModel
 				list.add(row);
 				row = null;
 			}
+
+			System.out.println(list.size());
 
 			this.stmt.close();
 		}

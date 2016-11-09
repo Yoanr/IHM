@@ -19,6 +19,9 @@ public class JReservation extends JFrame
 	private JButton		confirmation;
 	private JButton 	modification;
 
+	private JLabel		categorieLegend;
+	private JTextField	categorieField;
+
 	private int 		idReservation;
 
 	private JComboBox<Integer> selector;
@@ -41,8 +44,10 @@ public class JReservation extends JFrame
 		roomNumber 			= new JPanel();
 		nameLegend			= new JLabel("Nom");
 		pnameLegend 		= new JLabel("Prénom");
+		categorieLegend		= new JLabel("Catégorie");
 		nameField			= new JTextField();
 		pnameField			= new JTextField();
+		categorieField		= new JTextField();
 		confirmation		= new JButton(JReservation.CONFIRMATION);
 		modification 		= new JButton(JReservation.MODIFICATION);
 		gbc 				= new GridBagConstraints();
@@ -110,9 +115,24 @@ public class JReservation extends JFrame
 		gbc.insets		= new Insets(5, 5, 5, 5);
 		root.add(pnameField, gbc);
 
-
 		gbc.gridx 		= 1;
 		gbc.gridy 		= 4;
+		gbc.gridheight 	= 1;
+		gbc.gridwidth	= 1;
+		gbc.anchor 		= GridBagConstraints.CENTER;
+		gbc.insets		= new Insets(5, 5, 5, 5);
+		root.add(categorieLegend, gbc);
+
+		gbc.gridx 		= 2;
+		gbc.gridy 		= 4;
+		gbc.gridheight 	= 1;
+		gbc.gridwidth	= 1;
+		gbc.anchor 		= GridBagConstraints.CENTER;
+		gbc.insets		= new Insets(5, 5, 5, 5);
+		root.add(categorieField, gbc);
+
+		gbc.gridx 		= 1;
+		gbc.gridy 		= 5;
 		gbc.gridheight 	= 1;
 		gbc.gridwidth	= 1;
 		gbc.insets		= new Insets(5, 5, 5, 5);
@@ -137,6 +157,7 @@ public class JReservation extends JFrame
 
 		nameField.setText(String.valueOf(this.data.get(0)));
 		pnameField.setText(String.valueOf(this.data.get(1)));
+		categorieField.setText(String.valueOf(this.data.get(this.data.size() - 1)));
 
 		ArrayList<Integer> p = am.getAvailablesRooms(Integer.parseInt(String.valueOf(this.data.get(4))));
 

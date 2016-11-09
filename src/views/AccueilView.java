@@ -10,7 +10,7 @@ import javax.swing.*;
 public class AccueilView extends JFrame
 {
 
-	private JPanel metaTester;
+	private JPanel searchView;
 
 	public AccueilView()
 	{
@@ -19,9 +19,9 @@ public class AccueilView extends JFrame
 		this.setSize(350, 350);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		metaTester = new SearchView();
+		searchView = new SearchView();
 
-		add(metaTester);
+		add(searchView);
 		pack();
 		this.setLocationRelativeTo(null);
 	}

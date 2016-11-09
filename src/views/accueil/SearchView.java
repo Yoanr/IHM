@@ -12,9 +12,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 import java.util.*;
+import java.text.*;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 public class SearchView extends JPanel
 {
@@ -27,11 +26,13 @@ public class SearchView extends JPanel
 
 	private JTextField 	searchField;
 	private JLabel		errorField;
-	private JButton 	searchButton;
-	private JButton		refreshButton;
 	private JCheckBoxTable 		dtm;
 	private JTable 		resultTab;
 	private JScrollPane resultView;
+
+
+	private JButton 	searchButton;
+	private JButton		refreshButton;
 
 	private Controller 	ctrl;
 	private GridBagConstraints gbc;
@@ -61,55 +62,14 @@ public class SearchView extends JPanel
 
 		for(int i = 0; i < s; i++)
 			dtm.addRow(cached.get(i).toArray());
-		
-		// Listener de la selection
-		resultTab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		ListSelectionModel selectionModel = resultTab.getSelectionModel();
-		selectionModel.addListSelectionListener(new ListSelectionListener(){
-			public void valueChanged(ListSelectionEvent e)
-			{
-				if(!e.getValueIsAdjusting())
-				{
-					ArrayList<Object> list = new ArrayList<Object>();
-					int i = resultTab.getSelectedRow();
-					System.out.println(i);
-
-					if(i < 0) return;
-
-					int s = 0;
-					for(s = 0; s < METADATA_TAB.length; s++)
-						list.add(resultTab.getModel().getValueAt(i, s));
-
-					JReservation r = new JReservation();
-					r.setData(list.toArray());
-					r.setVisible(true);
-				}
-			}
-		});
 
 		initUI();
-
+		initControllers();
 	}
 
 	private void initUI()
 	{
 		errorField.setForeground(Color.RED);
-
-		// Setting up listeners ...
-		searchButton.addActionListener(ctrl);
-		refreshButton.addActionListener(ctrl);
-		searchField.addFocusListener(new FocusListener()
-		{
-			public void focusGained(FocusEvent e)
-			{
-				searchField.setText("");
-			}
-
-			public void focusLost(FocusEvent e)
-			{
-				if(searchField.getText().equals("\r")) searchField.setText(SEARCH_HINT);
-			}
-		});
 
 		setLayout(new GridBagLayout());
 
@@ -172,7 +132,7 @@ public class SearchView extends JPanel
 
 		add(resultView, gbc);
 
-		/* Mise en place du tableau de réservations */
+		/* Mise en place du bouton de refresh */
 		gbc.gridx 		= 2;
 		gbc.gridy 		= 4;
 		gbc.gridheight 	= 1;
@@ -186,6 +146,49 @@ public class SearchView extends JPanel
 
 		errorField.setVisible(false); // Cacher les erreurs !
 		resultView.setVisible(true);
+	}
+
+	private void initControllers()
+	{
+		searchButton.addActionListener(ctrl);
+		refreshButton.addActionListener(ctrl);
+		searchField.addFocusListener(new FocusListener()
+		{
+			public void focusGained(FocusEvent e)
+			{
+				searchField.setText("");
+			}
+
+			public void focusLost(FocusEvent e)
+			{
+				if(searchField.getText().equals("\r")) searchField.setText(SEARCH_HINT);
+			}
+		});
+
+		// Listener de la selection
+		resultTab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		ListSelectionModel selectionModel = resultTab.getSelectionModel();
+		selectionModel.addListSelectionListener(new ListSelectionListener(){
+			public void valueChanged(ListSelectionEvent e)
+			{
+				if(!e.getValueIsAdjusting())
+				{
+					ArrayList<Object> list = new ArrayList<Object>();
+					int i = resultTab.getSelectedRow();
+
+					if(i < 0) return;
+
+					int s = 0;
+					for(s = 0; s < METADATA_TAB.length; s++)
+						list.add(resultTab.getModel().getValueAt(i, s));
+
+					JReservation r = new JReservation();
+					r.setData(list.toArray());
+					r.setVisible(true);
+				}
+			}
+		});
+
 	}
 
 	/* "Usefull" getters ... */
@@ -206,10 +209,7 @@ public class SearchView extends JPanel
 		refresh();
 	}
 
-	public JScrollPane getTab()
-	{
-		return this.resultView;
-	}
+	public JScrollPane getTab() { return this.resultView; }
 
 	/* Méthodes d'affichage pour la rétroaction */
 	public void showError()
@@ -232,6 +232,16 @@ public class SearchView extends JPanel
 	{
 		if(cached == null) return;
 		if(dtm.getRowCount() > 0) removeAllRows();
+
+		int s = cached.size();
+
+		for(int i = 0; i < s; i++)
+			dtm.addRow(cached.get(i).toArray());
+	}
+
+	public void getReservations()
+	{
+		cached = AccueilModel.getInstance().getReservationsOfDay();
 
 		int s = cached.size();
 
