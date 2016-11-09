@@ -98,7 +98,6 @@ public class NettoyageModel
 		}
 	}
 
-public 
 //implementer le boolean isDirty
 	// Methode pour le nettotage des chambres : 
 	public int getIdEmployer(String prenompersonnel) {
@@ -119,7 +118,7 @@ public
 		closestmtBd();
 		return id;
 	}
-
+//compareTo renvoi 0 si date=autre <0 si 1er < 2eme
 	public String knowDepartClient(int idreservation, Date datedujour) {
 		String departclient=null;
 		openStatementExterne();
