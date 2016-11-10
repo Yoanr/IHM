@@ -270,6 +270,6 @@ public class AccueilModel
 			System.err.println(err.getMessage());
 			return false;
 		}
-		return false;
+		return true;
 	}
 }

@@ -21,7 +21,7 @@ public class SearchView extends JPanel
 	private  final String SEARCH_HINT 		= "Rechercher client par nom ...";
 	public   final String SEARCH_BTN_TXT	= "Rechercher";
 	public	 final String REFRESH_TXT 		= "Rafraichir";
-	private  final String[] METADATA_TAB 	= { "ID réservation", "Nom", "Prénom", "Durée" };
+	private  final String[] METADATA_TAB 	= { "ID réservation", "Nom", "Date de réservation", "Durée" };
 	private  final String  EMPTY_ERR    	= "Pour lancer une rechercher, merci de remplir le champ de texte";
 
 	private JTextField 	searchField;
