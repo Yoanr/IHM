@@ -20,7 +20,7 @@ public class NettoyageView extends JFrame {
 	public NettoyageView() {
 
 		super("Nettoyage Express");
-		this.setSize(450, 350);
+		this.setSize(650, 250);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		layout = new CardLayout();
 		cards = new JPanel(); 
@@ -39,7 +39,7 @@ public class NettoyageView extends JFrame {
 	}
 
 	public void swap(String jpanelname) { //Changement de Carte
-		
+		this.setSize(650, 250);
 		this.layout.show(cards,jpanelname);
 		revalidate();
 	}
@@ -48,13 +48,14 @@ public class NettoyageView extends JFrame {
 		
 		swap("choixnettoyage");
 		this.choixnettoyage.setData(tableauchambreanettoyer,prenom);
-		this.setSize(170, 550);
+		this.setSize(250, 550);
+		//this.setResizable(false);
 		revalidate();
 	}
 
 	public int etesvoussur() {
 		int choice = JOptionPane.showOptionDialog(null, 
-			"Avez-vous bien nettoyé cette chambre ?", 
+			"Nettoyer ?", 
 			"Avez-vous bien nettoyé cette chambre ?", 
 			JOptionPane.YES_NO_OPTION, 
 			JOptionPane.QUESTION_MESSAGE, 

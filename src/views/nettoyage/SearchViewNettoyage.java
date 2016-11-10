@@ -29,6 +29,7 @@ public class SearchViewNettoyage extends JPanel {
 		for(int i=0;i<listeemploye.length;i++) {
 			
 			JButton bouton = new JButton(listeemploye[i][1]);
+			bouton.setFont(new java.awt.Font(Font.SERIF,Font.BOLD,20));
 			this.add(bouton);
 			bouton.setActionCommand(listeemploye[i][0]);
 			bouton.addActionListener(event);

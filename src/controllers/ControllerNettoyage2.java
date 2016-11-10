@@ -12,6 +12,7 @@ import javax.swing.*;
  * @author Yoan ROCK
  * Classe permettant de Gérer les boutons du bas qui permet de nettoyer une autre chambre et permet d'afficher la legende
  */
+
 public class ControllerNettoyage2 implements ActionListener {
 	private JTextField jtf;
 	private NettoyageView nv;
@@ -24,6 +25,10 @@ public class ControllerNettoyage2 implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
+		if(e.getActionCommand().equals("\u2190")) {
+			nv.swap("1er");
+		}
+
 		if(e.getActionCommand().equals("legende")) {
 
 			nv.legende();
@@ -34,7 +39,7 @@ public class ControllerNettoyage2 implements ActionListener {
 		String strid = jtf.getText();
 
 		if(strid.equals("")) {
-
+			nv.error();
 			return;
 
 		}
