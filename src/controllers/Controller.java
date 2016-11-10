@@ -63,7 +63,21 @@ public class Controller implements ActionListener
 
 		if(e.getActionCommand().equals(sv.REFRESH_TXT))
 		{
-			this.sv.updateFromCache();
+			this.sv.removeAllRows();
+			AccueilModel am = AccueilModel.getInstance();
+
+			ArrayList<ArrayList<Object>> cached = new ArrayList<ArrayList<Object>>();
+			cached = am.getReservationsOfDay();
+
+			if(cached == null)
+			{
+				cached = this.sv.getCache();
+			}
+
+			int s = cached.size();
+			for(int i = 0; i < s; i++)
+				this.sv.getModel().addRow(cached.get(i).toArray());
+
 			this.sv.refresh();
 		}
 	}

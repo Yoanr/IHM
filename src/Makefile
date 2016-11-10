@@ -55,5 +55,5 @@ run-accueil:
 
 make-accueil-jar:
 	@echo "Java archive creation ..."
-	jar cvmf MANIFEST.MF $(ACCUEIL_ARCHIVE) $(ACCUEIL_VIEWS_PATH)*.class $(ROOT_VIEWS_PATH)*.class $(ACCUEIL_CTRLS_PATH)*.class $(ACCUEIL_MODELS_PATH)*.class AccueilTester.class
+	jar cvmf ACCUEIL.MF $(ACCUEIL_ARCHIVE) $(ACCUEIL_VIEWS_PATH)*.class $(ROOT_VIEWS_PATH)*.class $(ACCUEIL_CTRLS_PATH)*.class $(ACCUEIL_MODELS_PATH)*.class AccueilTester.class
 	@echo "Archive creation is a success, if you want to use the selector mode, use as argument tester, -tester or --tester by executing the archive"

@@ -204,6 +204,7 @@ public class SearchView extends JPanel
 	public JScrollPane getResultTab() 				{ return this.resultView; }
 	public JCheckBoxTable getModel()				{ return this.dtm; }
 	public JScrollPane getTab() 					{ return this.resultView; }
+	public ArrayList<ArrayList<Object>> getCache()	{ return this.cached; }
 
 	/* Méthodes d'affichage pour la rétroaction */
 	

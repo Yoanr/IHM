@@ -64,9 +64,14 @@ public class JReservation extends JFrame
 		confirmation.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
+				if(selector.getSelectedItem() == null)
+				{
+					JOptionPane.showMessageDialog(null, "Veuillez sélectionner une chambre, pour confirmer la réservation !", "Confirmation de réservation", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				int i = (int) selector.getSelectedItem();
 				System.out.println(data.get(0));
-				System.out.println(idReservation);
+				System.out.println(selector.getSelectedItem());
 
 				AccueilModel am = AccueilModel.getInstance();
 				boolean b = false;
