@@ -53,7 +53,6 @@ public class AccueilModel
 	private AccueilModel()
 	{
 		dateOfDay 	= new java.sql.Date((new java.util.Date()).getTime());
-		//dateCompare = new java.util.Date();
 		dateStr		= dateOfDay.toString();
 		try
 		{
@@ -126,7 +125,7 @@ public class AccueilModel
 		ArrayList<ArrayList<Object>> list = new ArrayList<ArrayList<Object>>();
 		ArrayList<Object> tmp = new ArrayList<Object>();
 
-		String query ="SELECT reservationfa.id, clientfa.nom, debut, duree, categoriefa.raccourci FROM reservationfa INNER JOIN clientfa ON reservationfa.referenceClient = clientfa.id INNER JOIN categoriefa ON reservationfa.referenceCategorie = categoriefa.id WHERE debut = '" + dateStr + "'";
+		String query ="SELECT reservationfa.id, clientfa.nom, clientfa.prenom, debut, duree, categoriefa.raccourci FROM reservationfa INNER JOIN clientfa ON reservationfa.referenceClient = clientfa.id INNER JOIN categoriefa ON reservationfa.referenceCategorie = categoriefa.id WHERE debut = '" + dateStr + "'";
 		try
 		{
 			openStatement();
@@ -160,7 +159,7 @@ public class AccueilModel
 	public ArrayList<ArrayList<Object>> getReservationByName(String name)
 	{
 		ArrayList<ArrayList<Object>> list = new ArrayList<ArrayList<Object>>();
-		String query = "SELECT reservationfa.id, clientfa.nom, debut, duree, categoriefa.raccourci FROM reservationfa INNER JOIN clientfa ON reservationfa.referenceClient = clientfa.id INNER JOIN categoriefa ON reservationfa.referenceCategorie = categoriefa.id WHERE clientfa.nom = '" + name + "'";
+		String query = "SELECT reservationfa.id, clientfa.nom, clientfa.prenom, debut, duree, categoriefa.raccourci FROM reservationfa INNER JOIN clientfa ON reservationfa.referenceClient = clientfa.id INNER JOIN categoriefa ON reservationfa.referenceCategorie = categoriefa.id WHERE clientfa.nom = '" + name + "'";
 
 		try
 		{

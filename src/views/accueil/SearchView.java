@@ -12,7 +12,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 import java.util.*;
-import java.text.*;
 
 
 public class SearchView extends JPanel
@@ -21,33 +20,34 @@ public class SearchView extends JPanel
 	private  final String SEARCH_HINT 		= "Rechercher client par nom ...";
 	public   final String SEARCH_BTN_TXT	= "Rechercher";
 	public	 final String REFRESH_TXT 		= "Rafraichir";
-	private  final String[] METADATA_TAB 	= { "ID réservation", "Nom", "Date de réservation", "Durée" };
+	private  final String[] METADATA_TAB 	= { "ID réservation", "Nom", "Prénom" ,"Date de réservation", "Durée" };
 	private  final String  EMPTY_ERR    	= "Pour lancer une rechercher, merci de remplir le champ de texte";
 
 	private JTextField 	searchField;
-	private JLabel		errorField;
-	private JCheckBoxTable 		dtm;
-	private JTable 		resultTab;
-	private JScrollPane resultView;
 
+	private JLabel		errorField;
+	private JLabel 		lbl;
 
 	private JButton 	searchButton;
 	private JButton		refreshButton;
 
-	private Controller 	ctrl;
-	private GridBagConstraints gbc;
-	private JLabel 		lbl;
+	private JTable 		resultTab;
+	private JCheckBoxTable 		dtm;
+	private JScrollPane resultView;
 
+	private Controller 	ctrl;
 	private ArrayList<ArrayList<Object>> cached;
+	private GridBagConstraints gbc;
 
 	public SearchView()
 	{
 		lbl						= new JLabel(APP_NAME);
-		gbc 					= new GridBagConstraints();
-		searchField 			= new JTextField("\r", 20);
 		errorField				= new JLabel(EMPTY_ERR);
+		searchField 			= new JTextField("\r", 20);
 		searchButton 			= new JButton(this.SEARCH_BTN_TXT);
 		refreshButton			= new JButton(this.REFRESH_TXT);
+
+		gbc 					= new GridBagConstraints();
 		dtm 					= new JCheckBoxTable(METADATA_TAB, 0);
 		resultTab				= new JTable(this.dtm);
 		resultView				= new JScrollPane(this.resultTab);
@@ -208,6 +208,9 @@ public class SearchView extends JPanel
 
 	/* Méthodes d'affichage pour la rétroaction */
 	
+	/**
+	 * @description("Méthode pour mettre à jour la JFrame contenant cette vue")
+	 */
 	public void refresh()
 	{
 		views.AccueilView av = (views.AccueilView) SwingUtilities.getWindowAncestor(this);
@@ -215,12 +218,18 @@ public class SearchView extends JPanel
 		av.setLocationRelativeTo(null);
 	}
 
+	/**
+	 * @description("Méthode pour cacher les anciennes encore présente à l'écran")
+	 */
 	public void hidePreviousError()
 	{
 		if(this.errorField.isDisplayable()) errorField.setVisible(false);
 		refresh();
 	}
 
+	/**
+	 * @description("Méthode pour afficher les erreurs")
+	 */
 	public void showError()
 	{
 		errorField.setVisible(true);
@@ -237,6 +246,9 @@ public class SearchView extends JPanel
 			dtm.removeRow(i);
 	}
 
+	/**
+	 * @description("Méthode pour nourrir la JTable pour ")
+	 */
 	public void updateFromCache()
 	{
 		if(cached == null) return;
@@ -248,6 +260,9 @@ public class SearchView extends JPanel
 			dtm.addRow(cached.get(i).toArray());
 	}
 
+	/**
+	 * @description("")
+	 */
 	public void getReservations()
 	{
 		cached = AccueilModel.getInstance().getReservationsOfDay();
@@ -256,5 +271,26 @@ public class SearchView extends JPanel
 
 		for(int i = 0; i < s; i++)
 			dtm.addRow(cached.get(i).toArray());
+	}
+
+	/**
+	 * @description("Permet de supprimer une entrée du cache grâce à l'ID d'une réservation")
+	 * @deprecated("Le cache est souvent remplacé par de nouvelles données prises en DB, donc inutile de l'utiliser")
+	 */
+	public void updateCacheByID(int idReservation)
+	{
+		int len = this.cached.size();
+		int iterator = 0;
+		boolean found = false;
+
+		while(!found)
+		{
+			if(Integer.parseInt(this.cached.get(iterator).get(0).toString()) == idReservation)
+			{
+				this.cached.remove(iterator);
+				found = true;
+			}
+			iterator++;
+		}
 	}
 }

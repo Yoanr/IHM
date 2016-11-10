@@ -19,6 +19,11 @@ public class JCheckBoxTable extends DefaultTableModel
 		super(meta, rowAdded);
 	}
 
+	/**
+	 * @param {int} column Colonne a modifier
+	 * @description("Définition du type sera utilisé dans la JTable, pour une checkbox faire un return de Boolean.class")
+	 * @return {?} retourne un object Class
+	 */
 	public Class<?> getColumnClass(int column)
 	{
 		switch(column)
@@ -33,8 +38,8 @@ public class JCheckBoxTable extends DefaultTableModel
 
 	/**
 	 * Méthode pour rendre une case du JTable non éditable
-	 * @param int row: le numéro de ligne, int col: le numéro de colonne
-	 * @return boolean détermine s'il faut éditer la case ou non
+	 * @param {int} row le numéro de ligne, int col: le numéro de colonne
+	 * @return {boolean} détermine s'il faut éditer la case ou non
 	 */
 	@Override
 	public boolean isCellEditable(int row, int col)

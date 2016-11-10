@@ -15,6 +15,10 @@ import java.util.*;
 
 public class JReservation extends JFrame
 {
+	public final String APP_NAME = "Réservation";
+	public static final String CONFIRMATION = "Confirmer";
+	public static final String MODIFICATION = "Modifier";
+
 	private JPanel 		root;
 	private JPanel 		roomNumber;
 	private JLabel		nameLegend;
@@ -31,11 +35,6 @@ public class JReservation extends JFrame
 
 	private JComboBox<Integer> selector;
 	private ArrayList<Object> data;
-
-	public final String APP_NAME = "Réservation";
-
-	public static final String CONFIRMATION = "Confirmer";
-	public static final String MODIFICATION = "Modifier";
 
 	private GridBagConstraints gbc;
 
@@ -61,36 +60,10 @@ public class JReservation extends JFrame
 
 		roomNumber.add(selector);
 
-		confirmation.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				if(selector.getSelectedItem() == null)
-				{
-					JOptionPane.showMessageDialog(null, "Veuillez sélectionner une chambre, pour confirmer la réservation !", "Confirmation de réservation", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				int i = (int) selector.getSelectedItem();
-				System.out.println(data.get(0));
-				System.out.println(selector.getSelectedItem());
-
-				AccueilModel am = AccueilModel.getInstance();
-				boolean b = false;
-
-				b = am.confirmReservation(i, idReservation);
-
-				if(b)
-				{
-					JOptionPane.showMessageDialog(null, "La réservation a bien été enregistrée !", "Confirmation de réservation", JOptionPane.INFORMATION_MESSAGE);
-					dispose();
-				}
-				else
-					JOptionPane.showMessageDialog(null, "Un problème interne a annulée la confirmation, veuillez réessayer plus tard", "Confirmation de réservation", JOptionPane.ERROR_MESSAGE);
-			}
-		});
-
 		root.setLayout(new GridBagLayout());
 
 		initUI();
+		initControllers();
 	}
 
 	private void initUI()
@@ -162,6 +135,35 @@ public class JReservation extends JFrame
 		//pack();
 	}
 
+	private void initControllers()
+	{
+		confirmation.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				if(selector.getSelectedItem() == null)
+				{
+					JOptionPane.showMessageDialog(null, "Veuillez sélectionner une chambre, pour confirmer la réservation !", "Confirmation de réservation", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				int i = (int) selector.getSelectedItem();
+				int p = (int) data.get(0);
+
+				AccueilModel am = AccueilModel.getInstance();
+				boolean b = false;
+
+				b = am.confirmReservation(i, idReservation);
+
+				if(b)
+				{
+					JOptionPane.showMessageDialog(null, "La réservation a bien été enregistrée !", "Confirmation de réservation", JOptionPane.INFORMATION_MESSAGE);
+					dispose();
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Un problème interne a annulée la confirmation, veuillez réessayer plus tard", "Confirmation de réservation", JOptionPane.ERROR_MESSAGE);
+			}
+		});
+	}
+
 	/**
 	 * @param Object[] Objet contenant les données pour "nourrir" la vue
 	 * BUG: CastExceptions lancées durant l'extraction
@@ -179,8 +181,6 @@ public class JReservation extends JFrame
 		idReservation = l;
 
 		this.data = am.getReservationByID(l);
-
-		System.out.println(this.data);
 
 		nameField.setText(String.valueOf(this.data.get(0)));
 		pnameField.setText(String.valueOf(this.data.get(1)));
