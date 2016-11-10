@@ -10,7 +10,7 @@ public class AccueilTester
 	{
 
 		if(args.length == 1)
-		{	
+		{
 			if(args[0].equals("tester") || args[0].equals("-tester") || args[0].equals("--tester"))
 			{
 				boolean validDate = false;
@@ -28,20 +28,27 @@ public class AccueilTester
 					{
 						validDate = false;
 					}
-					System.out.println(dateSelected);
+					catch(NullPointerException npe)
+					{
+						System.exit(0);
+					}
 				}
 
 				AccueilModel am = AccueilModel.getInstance();
 
 				am.setStrDate(dateSelected);
 			}
-			if(args[0].equals("help") || args[0].equals("-h") || args[0].equals("--helper"))
+			else if(args[0].equals("help") || args[0].equals("-h") || args[0].equals("--helper"))
 			{
 				System.out.println("Options possibles: tester, -tester, --tester");
 				System.exit(0);
 			}
+			else
+			{
+				System.err.println("Option invalide: utiliser l'option -h pour plus d'aide");
+				System.exit(-1);
+			}
 		}
-		
 
 		(new AccueilView()).setVisible(true);
 	}

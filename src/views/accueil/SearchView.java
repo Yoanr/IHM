@@ -58,10 +58,12 @@ public class SearchView extends JPanel
 
 		cached = am.getReservationsOfDay();
 
-		int s = cached.size();
-
-		for(int i = 0; i < s; i++)
-			dtm.addRow(cached.get(i).toArray());
+		if(cached != null)
+		{
+			int s = cached.size();
+			for(int i = 0; i < s; i++)
+				dtm.addRow(cached.get(i).toArray());
+		}
 
 		initUI();
 		initControllers();
