@@ -1,38 +1,34 @@
 package views.nettoyage;
 
-/* Customs imports */
-//import controllers.*;
 import views.*;
 
 import java.awt.color.*;
 import models.*;
-
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import views.NettoyageView;
 import java.util.*;
 import controllers.*;
 
+/**
+ * Classe Stockage
+ * @author Yoan ROCK
+ * Classe permettant de choisir quelle chambre nettoyer
+ */
 
-public class ChoixNettoyage extends JPanel
-{
-	/*private String APP_NAME 				= "Nettoyage Hotel";
-	private  final String SEARCH_HINT 		= "Rechercher salarié par prénom ...";
-	private  final String  EMPTY_ERR    	= "Pour lancer une rechercher, merci de remplir le champ de texte";
-	public   final String SEARCH_BTN_TXT	= "Rechercher";
-	public	 final String REFRESH_TXT 		= "Rafraichir";*/
+
+public class ChoixNettoyage extends JPanel {
 	
 	private String[][] tableauchambre;
-   private NettoyageView nv;
+    private NettoyageView nv;
 
-	public ChoixNettoyage(NettoyageView nview)
-	{
+	public ChoixNettoyage(NettoyageView nview) {
 				this.nv=nview;
 
 	}
+
 	public void setData(String[][] tableauchambreanettoyer,String prenom) {
 
 		tableauchambre=tableauchambreanettoyer;
@@ -59,18 +55,19 @@ public class ChoixNettoyage extends JPanel
 		jpdroite.add(prenomsalarie);
 		jpgauche.add(title1);
 		jpdroite.add(title2);
+
 		for(int i=0;i<tableauchambre.length;i++) {
-			//NettoyageModel am = NettoyageModel.getInstance();
+			
 			JButton bouton = new JButton(tableauchambre[i][0]);
 			JLabel infoclient = new JLabel(tableauchambre[i][1]);
 			jpgauche.add(bouton);
 			jpdroite.add(infoclient);
-			bouton.setActionCommand("-1");
+			bouton.setActionCommand("-1"); //permet d'identifier cette liste de bouton 
 			bouton.addActionListener(event);
 			bouton.setForeground(Color.RED);
 		}
 		
-		JLabel jl = new JLabel("Une autre chambre ? : ");
+		JLabel jl = new JLabel("OTHER :");
 		jpgauche.add(jl);
 		JTextField jf = new JTextField();
 		jpdroite.add(jf);
@@ -85,6 +82,4 @@ public class ChoixNettoyage extends JPanel
 		this.add(jpdroite);
 		this.revalidate();
 	}
-
-	
 }
