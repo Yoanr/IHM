@@ -1,2 +1,2 @@
-Main-Class: AccueilTester
-Class-Path: mariadb-client.jar
+Main-Class: AccueilMain
+Class-Path: lib/mariadb-client.jar

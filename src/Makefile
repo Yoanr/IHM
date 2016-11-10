@@ -21,7 +21,7 @@ ACCUEIL_CLASSES = \
 	$(ACCUEIL_VIEWS_PATH)JReservation.java \
 	$(ACCUEIL_VIEWS_PATH)SearchView.java \
 	$(ROOT_VIEWS_PATH)AccueilView.java \
-	AccueilTester.java
+	AccueilMain.java
 
 NETTOYAGE_CLASSES = \
 	$(ACCUEIL_MODELS_PATH)NettoyageModel.java \
@@ -59,7 +59,7 @@ run-accueil:
 
 make-accueil-jar:
 	@echo "Java archive creation ..."
-	jar cvmf ACCUEIL.MF $(ACCUEIL_ARCHIVE) $(ACCUEIL_VIEWS_PATH)*.class $(ROOT_VIEWS_PATH)AccueilView.class $(ACCUEIL_CTRLS_PATH)Controller.class $(ACCUEIL_MODELS_PATH)AccueilModel.class AccueilTester.class
+	jar cvmf ACCUEIL.MF $(ACCUEIL_ARCHIVE) $(ACCUEIL_VIEWS_PATH)*.class $(ROOT_VIEWS_PATH)AccueilView.class $(ACCUEIL_CTRLS_PATH)Controller.class $(ACCUEIL_MODELS_PATH)AccueilModel.class AccueilMain.class
 	@echo "Archive creation is a success, if you want to use the selector mode, use as argument tester, -tester or --tester by executing the archive"
 
 make-nettoyage-jar:

@@ -1,2 +1,2 @@
 Main-Class: MainNettoyage
-Class-Path: mariadb-client.jar
+Class-Path: lib/mariadb-client.jar

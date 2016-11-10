@@ -179,9 +179,6 @@ public class AccueilModel
 				list.add(row);
 				row = null;
 			}
-
-			System.out.println(list.size());
-
 			this.stmt.close();
 		}
 		catch(SQLException err)

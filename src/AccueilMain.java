@@ -4,7 +4,7 @@ import models.*;
 import javax.swing.JOptionPane;
 import java.text.*;
 
-public class AccueilTester
+public class AccueilMain
 {
 	public static void main(String[] args)
 	{
