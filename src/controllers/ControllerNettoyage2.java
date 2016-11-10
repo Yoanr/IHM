@@ -37,7 +37,7 @@ public class ControllerNettoyage2 implements ActionListener {
 		Stockage s = Stockage.getInstance();
 		NettoyageModel am = NettoyageModel.getInstance();
 		String strid = jtf.getText();
-
+		if(e.getActionCommand().equals("CLEAN")){
 		if(strid.equals("")) {
 			nv.error();
 			return;
@@ -51,6 +51,7 @@ public class ControllerNettoyage2 implements ActionListener {
 			nv.error();
 
 		}
+
 		else {
 
 			int choice=nv.etesvoussur();
@@ -62,6 +63,7 @@ public class ControllerNettoyage2 implements ActionListener {
 				nv.afficherNettoyage(chambreanettoyer,prenom);
 				
 			}
+		}
 		}
 	}
 }
