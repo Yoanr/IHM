@@ -69,7 +69,17 @@ public class JReservation extends JFrame
 				System.out.println(idReservation);
 
 				AccueilModel am = AccueilModel.getInstance();
-				am.confirmReservation(i, idReservation);
+				boolean b = false;
+
+				b = am.confirmReservation(i, idReservation);
+
+				if(b)
+				{
+					JOptionPane.showMessageDialog(null, "La réservation a bien été enregistrée !", "Confirmation de réservation", JOptionPane.INFORMATION_MESSAGE);
+					dispose();
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Un problème interne a annulée la confirmation, veuillez réessayer plus tard", "Confirmation de réservation", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 
@@ -144,7 +154,7 @@ public class JReservation extends JFrame
 		root.add(confirmation, gbc);
 
 		add(root);
-		pack();
+		//pack();
 	}
 
 	/**
