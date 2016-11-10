@@ -108,23 +108,23 @@ public class NettoyageModel
 		String requete="Select id,prenom from personnelNettoyage";
 		try {
 			ResultSet rs=this.stmt.executeQuery(requete);
-int size= 0;
-    		if (rs != null)   
-    		{  
-    			rs.beforeFirst();  
-    			rs.last();  
-    			size = rs.getRow();
-    			ListeEmployer = new String[size][2];  
-    			rs.beforeFirst();
-    			int i=0;
-    			while(rs.next()) {
+			int size= 0;
+			if (rs != null)   
+			{  
+				rs.beforeFirst();  
+				rs.last();  
+				size = rs.getRow();
+				ListeEmployer = new String[size][2];  
+				rs.beforeFirst();
+				int i=0;
+				while(rs.next()) {
 
-    				ListeEmployer[i][0]=Integer.toString(rs.getInt("id"));
-    				ListeEmployer[i][1]=rs.getString("prenom");
-    				i++;
-    			}
+					ListeEmployer[i][0]=Integer.toString(rs.getInt("id"));
+					ListeEmployer[i][1]=rs.getString("prenom");
+					i++;
+				}
 
-    		}
+			}
 
 		}catch(SQLException e) {
 			id=0;
@@ -148,9 +148,9 @@ int size= 0;
 		try {
 			ResultSet rs=this.stmt.executeQuery(requete);
 			while(rs.next()) {
-			duree= rs.getInt("duree");
-		    datedebut= rs.getDate("debut");
-}
+				duree= rs.getInt("duree");
+				datedebut= rs.getDate("debut");
+			}
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(datedebut);
 			cal.add( Calendar.DAY_OF_MONTH, duree );
@@ -238,6 +238,27 @@ int size= 0;
     		return;
     	}
     	return;
+    }
+    public String recupprenombyid(int idemployer) {
+    	String prenom=null; 
+    	openStatement();
+    		String requete="Select Prenom from personnelNettoyage where id = '" + idemployer + "'";
+
+    	try {
+    		ResultSet rs=this.stmt.executeQuery(requete);
+    		while(rs.next()) {
+    			prenom=rs.getString("Prenom");
+    		}
+
+    	}
+    	catch(SQLException e) {
+    		System.out.println("Probleme executeQuery recupprenombyid");
+    		closestmtBd();
+    		closeBd();
+    		return "";
+    	}
+    	closestmtBd();
+    	return prenom;
     }
 
     public void nettoyageFait(int idChambre) {

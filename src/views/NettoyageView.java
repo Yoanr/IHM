@@ -46,12 +46,13 @@ this.layout.show(cards,jpanelname);
 revalidate();
 	}
 	public void afficherNettoyage(String[][] tableauchambreanettoyer,String prenom) {
-		System.out.println("here");
+		
 		swap("choixnettoyage");
+
 		this.choixnettoyage.setData(tableauchambreanettoyer,prenom);
 		this.setSize(170, 550);
 		//this.setResizable(false);
-		System.out.println("here");
+		
 
 		revalidate();
 	}
@@ -67,8 +68,12 @@ return choice;
 }
 public void error() {
 	JOptionPane.showMessageDialog(this,
-    "Enter a number beetwin 1 & 100.",
+    "Enter a number beetween 1 & 100.",
     "Please",
     JOptionPane.ERROR_MESSAGE);
+}
+public void legende() {
+	JOptionPane.showMessageDialog(this,
+    "AC -> Aucun client aujourd'hui,\nDCNA -> Client present ET quitte pas l'hotel aujourdhui,\nDCA -> Client present et quitte l'hotel aujourdhui.");
 }
 }

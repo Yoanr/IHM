@@ -38,10 +38,15 @@ public class ChoixNettoyage extends JPanel
 		tableauchambre=tableauchambreanettoyer;
 		this.removeAll();
 		
-		GridLayout gestionnaire = new GridLayout(13,2);
+		GridLayout gestionnaire = new GridLayout(1,2);
+		GridLayout gestionnairegauche = new GridLayout(14,1);
+		GridLayout gestionnairedroite= new GridLayout(14,1);
+		JPanel jpgauche = new JPanel();
+		JPanel jpdroite = new JPanel();
 		
 		this.setLayout(gestionnaire);
-		
+		jpgauche.setLayout(gestionnairegauche);
+		jpdroite.setLayout(gestionnairedroite);
 		
 		ControllerNettoyage event = new ControllerNettoyage(this.nv,prenom,"refresh");
 		JLabel title0 = new JLabel("salarie:");
@@ -50,29 +55,34 @@ public class ChoixNettoyage extends JPanel
 		JLabel title2 = new JLabel("Status");
 		
 		
-		this.add(title0);
-		this.add(prenomsalarie);
-		this.add(title1);
-		this.add(title2);
+		jpgauche.add(title0);
+		jpdroite.add(prenomsalarie);
+		jpgauche.add(title1);
+		jpdroite.add(title2);
 		for(int i=0;i<tableauchambre.length;i++) {
 			//NettoyageModel am = NettoyageModel.getInstance();
 			JButton bouton = new JButton(tableauchambre[i][0]);
 			JLabel infoclient = new JLabel(tableauchambre[i][1]);
-			this.add(bouton);
-			this.add(infoclient);
+			jpgauche.add(bouton);
+			jpdroite.add(infoclient);
 			bouton.setActionCommand("-1");
 			bouton.addActionListener(event);
 			bouton.setForeground(Color.RED);
 		}
 		
 		JLabel jl = new JLabel("Une autre chambre ? : ");
-		this.add(jl);
+		jpgauche.add(jl);
 		JTextField jf = new JTextField();
-		this.add(jf);
-		JButton valider2 = new JButton("nettoyer Manuel");
+		jpdroite.add(jf);
+		JButton valider2 = new JButton("CLEAN");
+		JButton legende= new JButton("legende");
 		ControllerNettoyage2 event2 = new ControllerNettoyage2(jf,this.nv);
-		this.add(valider2);
+		jpgauche.add(valider2);
+		jpdroite.add(legende);
 		valider2.addActionListener(event2);
+		legende.addActionListener(event2);
+		this.add(jpgauche);
+		this.add(jpdroite);
 		this.revalidate();
 	}
 

@@ -19,6 +19,7 @@ public class ControllerNettoyage implements ActionListener
 	private String prenom;
 	private int idEmploye;
 	private String status;
+
 	public ControllerNettoyage(NettoyageView nv, String prenomm,String statu)
 	{
 		this.nettoview=nv;
@@ -28,8 +29,11 @@ public class ControllerNettoyage implements ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		Stockage s = Stockage.getInstance();
 		NettoyageModel am = NettoyageModel.getInstance();
 		if(Integer.parseInt(e.getActionCommand())==-1) {
+			System.out.println("hereEEEEEEEE");
+
 			JButton a =(JButton) e.getSource();
 
 			String strchambre=a.getText();
@@ -40,18 +44,29 @@ public class ControllerNettoyage implements ActionListener
 
 			if (choice == JOptionPane.YES_OPTION)
 			{
+				
 				am.nettoyageFait(idchambre);
+				int idEmploye=s.getId();
+				System.out.println(idEmploye);
 				String[][] chambreanettoyer=am.recupChambreEmployer(idEmploye);
-				System.out.println("here");
+				
+				for(int i=0;i<chambreanettoyer.length;i++) {
+					for(int j=0;j<2;j++) {
+						System.out.println(chambreanettoyer[i][j]);
+						
+					}
+					
+				}
+				System.out.println(prenom);
 				nettoview.afficherNettoyage(chambreanettoyer,prenom);
-				this.status="new";
+				
 			}
 
 		}
 		if(Integer.parseInt(e.getActionCommand())==-2) {
 			
 		}
-		if(this.status=="new") {
+		if(this.status.equals("new")) {
 
 
 			//recuperer pseudo dans la view;
@@ -61,7 +76,8 @@ public class ControllerNettoyage implements ActionListener
 
 
 			int idpersonnel=Integer.parseInt(e.getActionCommand());
-			this.idEmploye=idpersonnel;
+			s.setId(idpersonnel);
+			//setIdEmploye(idpersonnel);
 			String[][] chambreanettoyer=am.recupChambreEmployer(idpersonnel);
 
 			nettoview.afficherNettoyage(chambreanettoyer,prenom);
