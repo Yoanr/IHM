@@ -9,9 +9,10 @@ ACCUEIL_CTRLS_PATH=controllers/
 ACCUEIL_MODELS_PATH=models/
 
 ACCUEIL_ARCHIVE = Accueil.jar
+NETTOYAGE_ARCHIVE = Nettoyage.jar
 
 NETTOYAGE_VIEW_PATH=views/nettoyage/
-NETTOYAGE_CTRLS_PATH=controllers/nettoyage/
+NETTOYAGE_CTRLS_PATH=controllers/
 
 ACCUEIL_CLASSES = \
 	$(ACCUEIL_MODELS_PATH)AccueilModel.java \
@@ -33,7 +34,7 @@ NETTOYAGE_CLASSES = \
 default: all
 
 accueil: $(ACCUEIL_CLASSES:.java=.class) make-accueil-jar clean-accueil
-nettoyage: $(NETTOYAGE_CLASSES:.java=.class)
+nettoyage: $(NETTOYAGE_CLASSES:.java=.class) make-nettoyage-jar clean-nettoyage
 
 all: accueil nettoyage
 
@@ -47,6 +48,9 @@ clean-accueil:
 clean-nettoyage:
 	$(RM) $(NETTOYAGE_VIEW_PATH)*.class
 	$(RM) $(NETTOYAGE_CTRLS_PATH)*.class
+	$(RM) $(ACCUEIL_MODELS_PATH)*.class
+	$(RM) *.class
+	$(RM) $(ROOT_VIEWS_PATH)*.class
 
 clean: clean-accueil clean-nettoyage
 
@@ -55,5 +59,10 @@ run-accueil:
 
 make-accueil-jar:
 	@echo "Java archive creation ..."
-	jar cvmf ACCUEIL.MF $(ACCUEIL_ARCHIVE) $(ACCUEIL_VIEWS_PATH)*.class $(ROOT_VIEWS_PATH)*.class $(ACCUEIL_CTRLS_PATH)*.class $(ACCUEIL_MODELS_PATH)*.class AccueilTester.class
+	jar cvmf ACCUEIL.MF $(ACCUEIL_ARCHIVE) $(ACCUEIL_VIEWS_PATH)*.class $(ROOT_VIEWS_PATH)AccueilView.class $(ACCUEIL_CTRLS_PATH)Controller.class $(ACCUEIL_MODELS_PATH)AccueilModel.class AccueilTester.class
+	@echo "Archive creation is a success, if you want to use the selector mode, use as argument tester, -tester or --tester by executing the archive"
+
+make-nettoyage-jar:
+	@echo "Java archive creation ..."
+	jar cvmf NETTOYAGE.MF $(NETTOYAGE_ARCHIVE) $(NETTOYAGE_VIEW_PATH)*.class $(ROOT_VIEWS_PATH)NettoyageView.class $(ACCUEIL_CTRLS_PATH)ControllerNettoyage*.class $(ACCUEIL_CTRLS_PATH)Stockage.class $(ACCUEIL_MODELS_PATH)NettoyageModel.class MainNettoyage.class
 	@echo "Archive creation is a success, if you want to use the selector mode, use as argument tester, -tester or --tester by executing the archive"
