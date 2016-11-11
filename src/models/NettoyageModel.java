@@ -4,7 +4,9 @@ import java.sql.*;
 import java.util.*;
 import java.text.*;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.text.ParseException;
 
 /**
  * Classe NettoyageModel
@@ -36,12 +38,18 @@ private Connection conExterne;
 
 private Statement stmt;
 
+private String  dateStr;
+private java.sql.Date dateOfDay;
+
 public static NettoyageModel getInstance() {
 	if(instance == null)
 		instance = new NettoyageModel();
 
 	return instance;
 }
+
+public String getStrDate() { return this.dateStr; }
+public void setStrDate(String str) { this.dateStr = str; }
 
 private NettoyageModel() {
 	try {
@@ -131,30 +139,44 @@ public String[][] getEmployer() {
 	return ListeEmployer;
 }
 //compareTo renvoi 0 si date=autre <0 si 1er < 2eme
-public String knowDepartClient(int idreservation, Date datedujour,int idChambre) {
+public String knowDepartClient(int idreservation,int idChambre) {
 	String departclient=null;
-	Date datedebut=null;
-	int duree=0;
-	openStatementExterne();
-	String requete="Select duree,debut from reservationfa where id = '" + idreservation+ "';";
-	try {
-		ResultSet rs=this.stmt.executeQuery(requete);
-		while(rs.next()) {
-			duree= rs.getInt("duree");
-			datedebut= rs.getDate("debut");
-		}
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(datedebut);
-		cal.add( Calendar.DAY_OF_MONTH, duree );
+    java.sql.Date datedujour=null;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+    try {
+        if(this.dateStr.equals("")) {
+            datedujour = new java.sql.Date((new java.util.Date()).getTime());
+        }
+        else {
+            java.util.Date datedujou = dateFormat.parse(this.dateStr);
+            datedujour = new java.sql.Date(datedujou.getTime());
+        }
+
+    //Date parsed = dateFormat.parse("2016-10-10");
+    //java.util.Date datedujour = dateFormat.getTimestamp(this.dateStr);
+        Date date = null;
+        Date datedebut=null;
+        int duree=0;
+        openStatementExterne();
+        String requete="Select duree,debut from reservationfa where id = '" + idreservation+ "';";
+        try {
+          ResultSet rs=this.stmt.executeQuery(requete);
+          while(rs.next()) {
+           duree= rs.getInt("duree");
+           datedebut= rs.getDate("debut");
+       }
+       Calendar cal = Calendar.getInstance();
+       cal.setTime(datedebut);
+       cal.add( Calendar.DAY_OF_MONTH, duree );
 		Date datefin =  new Date(cal.getTime().getTime()); //subtilité : 2 fois get time pour recuperer un long et pouvoir l'utilisé en bon type
 		//permet de recuperer la date de fin
 
-     if(datedujour.after(datefin)) {
+     if(datedujour.after(datefin) || datedujour.before(datedebut) ) {
 				//Datedujour is after Datefin
                departclient="AC"; // aucun client dans la chambre
            }
 
-           if(datedujour.before(datefin)) {
+           if( datedujour.before(datefin) && datedujour.after(datedebut) ) {
            	//Datedujour is before Datefin
                 departclient="DCNA"; // depart client pas aujourdhui
             }
@@ -172,117 +194,120 @@ public String knowDepartClient(int idreservation, Date datedujour,int idChambre)
         	closeBd();
         	return departclient;
         }
-
-        closestmtBd();
-        return departclient;
+    }catch(ParseException e){
+        return "";
     }
 
-    public String[][] recupChambreEmployer(int idemployer) {
-    	java.sql.Date datedujour = new java.sql.Date((new java.util.Date()).getTime());
-    	openStatement();
-    	String chambreanettoyer[][]=null;
-    	try {
-    		int firstroom=(idemployer*10)-9; 
-    		int lastroom=idemployer*10;
-    		String requete="Select idChambre,reservation from Chambre where idChambre >= '" + firstroom+ "' AND idChambre <= '" + lastroom + "' AND reservation > 0 AND isDirty=1 ";
-    		ResultSet rs=this.stmt.executeQuery(requete);
-    		int size= 0;
-    		if (rs != null) {  
-    			rs.beforeFirst();  
-    			rs.last();  
-    			size = rs.getRow();
-    			chambreanettoyer = new String[size][2];  
-    			rs.beforeFirst(); 
-    			int i=0;
-    			while(rs.next()) {
+    closestmtBd();
+    return departclient;
+}
 
-    				chambreanettoyer[i][0]=Integer.toString(rs.getInt("idChambre"));
-    				chambreanettoyer[i][1]=knowDepartClient(rs.getInt("reservation"),datedujour,rs.getInt("idChambre"));
-    				i++;
-    			}
+public String[][] recupChambreEmployer(int idemployer) {
+    	//java.sql.Date datedujour = new java.sql.Date((new java.util.Date()).getTime());
+   openStatement();
+   String chambreanettoyer[][]=null;
+   try {
+      int firstroom=(idemployer*10)-9; 
+      int lastroom=idemployer*10;
+      String requete="Select idChambre,reservation from Chambre where idChambre >= '" + firstroom+ "' AND idChambre <= '" + lastroom + "' AND reservation > 0 AND isDirty=1 ";
+      ResultSet rs=this.stmt.executeQuery(requete);
+      int size= 0;
+      if (rs != null) {  
+         rs.beforeFirst();  
+         rs.last();  
+         size = rs.getRow();
+         chambreanettoyer = new String[size][2];  
+         rs.beforeFirst(); 
+         int i=0;
+         while(rs.next()) {
 
-    		} 
-    	}catch(SQLException e) {
-    		System.out.println("Probleme executeQuery recupChambreEmployer");
-    		closestmtBd();
-    		closeBd();
-    		return chambreanettoyer;
-    	}
+            chambreanettoyer[i][0]=Integer.toString(rs.getInt("idChambre"));
+            chambreanettoyer[i][1]=knowDepartClient(rs.getInt("reservation"),rs.getInt("idChambre"));
+            i++;
+        }
 
-    	closestmtBd();
-    	return chambreanettoyer;
-    }
+    } 
+}catch(SQLException e) {
+  System.out.println("Probleme executeQuery recupChambreEmployer");
+  closestmtBd();
+  closeBd();
+  return chambreanettoyer;
+}
 
-    public void clientpartit(int idChambre) {
-    	openStatement();
-    	String requete="UPDATE Chambre SET reservation = 0 WHERE idChambre '" + idChambre + "'";
-    	try {
-    		this.stmt.executeUpdate(requete);
-    	}catch(SQLException e) {
-    		System.out.println("Probleme executeQuery clientpartit");
-    		closestmtBd();
-    		closeBd();
-    		return;
-    	}
-    	return;
-    }
+closestmtBd();
+return chambreanettoyer;
+}
 
-    public String recupprenombyid(int idemployer) {
-    	String prenom=null; 
-    	openStatement();
-    	String requete="Select Prenom from personnelNettoyage where id = '" + idemployer + "'";
+public void clientpartit(int idChambre) {
+   openStatement();
+   String requete="UPDATE Chambre SET reservation = 0 WHERE idChambre = '"  + idChambre + "'";
+   try {
+      this.stmt.executeUpdate(requete);
+  }catch(SQLException e) {
+      System.out.println("Probleme executeQuery clientpartit");
+      closestmtBd();
+      closeBd();
+      return;
+  }
+  return;
+}
 
-    	try {
-    		ResultSet rs=this.stmt.executeQuery(requete);
-    		while(rs.next()) {
-    			prenom=rs.getString("Prenom");
-    		}
+public String recupprenombyid(int idemployer) {
+   String prenom=null; 
+   openStatement();
+   String requete="Select Prenom from personnelNettoyage where id = '" + idemployer + "'";
 
-    	}
-    	catch(SQLException e) {
-    		System.out.println("Probleme executeQuery recupprenombyid");
-    		closestmtBd();
-    		closeBd();
-    		return "";
-    	}
-    	closestmtBd();
-    	return prenom;
-    }
+   try {
+      ResultSet rs=this.stmt.executeQuery(requete);
+      while(rs.next()) {
+         prenom=rs.getString("Prenom");
+     }
 
-    public void nettoyageFait(int idChambre) {
-    	openStatement();
-    	String requete="UPDATE Chambre SET isDirty = 0 WHERE idChambre ='" + idChambre + "'";
-    	try {
-    		this.stmt.executeUpdate(requete);
+ }
+ catch(SQLException e) {
+  System.out.println("Probleme executeQuery recupprenombyid");
+  closestmtBd();
+  closeBd();
+  return "";
+}
+closestmtBd();
+return prenom;
+}
 
-    	}catch(SQLException e) {
-    		System.out.println("Probleme executeQuery nettoyageFait");
-    		closestmtBd();
-    		closeBd();
-    		return;
-    	}
-    	closestmtBd();
-    	return;
-    }
+public void nettoyageFait(int idChambre) {
+   openStatement();
+   String requete="UPDATE Chambre SET isDirty = 0 WHERE idChambre ='" + idChambre + "'";
+   try {
+      this.stmt.executeUpdate(requete);
+
+  }catch(SQLException e) {
+      System.out.println("Probleme executeQuery nettoyageFait");
+      closestmtBd();
+      closeBd();
+      return;
+  }
+  closestmtBd();
+  return;
+}
 
 
-    public void closestmtBd() {
-    	try {
-    		this.stmt.close();
-    	}catch (SQLException e4) {
-    		System.out.println("Probleme Fermeture canal");
-    		closeBd();
-    	}
-    }
+public void closestmtBd() {
+   try {
+      this.stmt.close();
+  }catch (SQLException e4) {
+      System.out.println("Probleme Fermeture canal");
+      closeBd();
+  }
+}
 
-    public void closeBd() {
-    	try {
-    		this.conInterne.close();
-    		this.conExterne.close();
-    		System.out.println("Fermeture de la base de donnée");
-    	}catch(SQLException e4) {
-    		System.out.println("Impossible de fermer la BD");
-    	}
-    }
+public void closeBd() {
+   try {
+      this.conInterne.close();
+      this.conExterne.close();
+      System.out.println("Fermeture de la base de donnée");
+  }catch(SQLException e4) {
+      System.out.println("Impossible de fermer la BD");
+  }
+}
 
 }

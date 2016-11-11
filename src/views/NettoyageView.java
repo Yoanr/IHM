@@ -3,6 +3,9 @@ package views;
 import views.nettoyage.*;
 import java.awt.*;
 import javax.swing.*;
+import models.*;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 
 /**
  * Classe NettoyageView 
@@ -19,7 +22,18 @@ public class NettoyageView extends JFrame {
 
 	public NettoyageView() {
 
-		super("Nettoyage Express");
+
+
+		super();
+		NettoyageModel am = NettoyageModel.getInstance();
+		if(am.getStrDate().equals("")) {
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+java.sql.Date datedujour = new java.sql.Date((new java.util.Date()).getTime());
+String str= df.format(datedujour);
+			this.setTitle(str);
+		}else {
+			this.setTitle(am.getStrDate());
+		}
 		this.setSize(650, 250);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		layout = new CardLayout();
@@ -46,6 +60,7 @@ public class NettoyageView extends JFrame {
 
 	public void afficherNettoyage(String[][] tableauchambreanettoyer,String prenom) {
 		
+
 		swap("choixnettoyage");
 		this.choixnettoyage.setData(tableauchambreanettoyer,prenom);
 		this.setSize(250, 550);
