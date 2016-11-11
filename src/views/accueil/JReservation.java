@@ -73,9 +73,11 @@ public class JReservation extends JFrame
 
 		nameField.setEditable(false);
 		pnameField.setEditable(false);
+		categorieField.setEditable(false);
 
 		nameField.setBackground(c);
 		pnameField.setBackground(c);
+		categorieField.setBackground(c);
 
 		gbc.gridx 		= 1;
 		gbc.gridy 		= 1;
