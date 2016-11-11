@@ -31,7 +31,6 @@ public class AccueilModel
 	private final String  MDP		 	= "mhitejorp";
 
 	private java.sql.Date dateOfDay;
-	private java.util.Date dateCompare;
 	private String 		  dateStr;
 
 	private Connection con;
