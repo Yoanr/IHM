@@ -68,6 +68,15 @@ public class JReservation extends JFrame
 
 	private void initUI()
 	{
+
+		Color c = Color.WHITE;
+
+		nameField.setEditable(false);
+		pnameField.setEditable(false);
+
+		nameField.setBackground(c);
+		pnameField.setBackground(c);
+
 		gbc.gridx 		= 1;
 		gbc.gridy 		= 1;
 		gbc.gridheight 	= 1;
