@@ -5,6 +5,7 @@ import javax.swing.event.*;
 
 /**
  * Classe JCheckBoxTable
+ * @author Martin Barreau
  * Cette classe a été à l'origine utilisée pour avoir un JCheckBox
  * Cependant depuis il n'a plus été utilisé
  *

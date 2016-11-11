@@ -7,6 +7,14 @@ import models.*;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * Classe regorupant toute les vues pour l'accueil
+ * @author Martin Barreau
+ * @description("Classe contenant tout les JPanels pour la vue de l'accueil")
+ * HACK: Pour le moment, il n'y a qu'un seul JPanel,
+ * on peut en ajouter autant que l'on veux tant que l'on utilise un CardLayout
+ */
+
 public class AccueilView extends JFrame
 {
 

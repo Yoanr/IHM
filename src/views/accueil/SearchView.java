@@ -13,6 +13,11 @@ import java.awt.event.*;
 
 import java.util.*;
 
+/**
+ * Classe SearchView
+ * @author Martin Barreau
+ * @description("Classe repésentant le menu principale contenant toute les réservations")
+ */
 
 public class SearchView extends JPanel
 {

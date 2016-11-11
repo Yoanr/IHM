@@ -50,6 +50,9 @@ public class AccueilModel
 		return instance;
 	}
 
+	/**
+	 * @param {int} id représente la réservation à exclure à la prochaine recherche
+	 */
 	public void registerId(int id)
 	{
 		if(excludedIds == null) excludedIds = new ArrayList<Integer>();
@@ -57,6 +60,9 @@ public class AccueilModel
 		formatExcludedIds();
 	}
 
+	/**
+	 * @description("Méthode pour formater les IDs pour le filtre")
+	 */
 	private void formatExcludedIds()
 	{
 		int i;

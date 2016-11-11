@@ -33,10 +33,10 @@ NETTOYAGE_CLASSES = \
 
 default: all
 
-accueil: $(ACCUEIL_CLASSES:.java=.class) make-accueil-jar clean-accueil
-nettoyage: $(NETTOYAGE_CLASSES:.java=.class) make-nettoyage-jar clean-nettoyage
+accueil: $(ACCUEIL_CLASSES:.java=.class) make-accueil-jar
+nettoyage: $(NETTOYAGE_CLASSES:.java=.class) make-nettoyage-jar
 
-all: accueil nettoyage
+all: accueil nettoyage clean
 
 clean-accueil:
 	$(RM) $(ACCUEIL_MODELS_PATH)*.class
@@ -53,9 +53,6 @@ clean-nettoyage:
 	$(RM) $(ROOT_VIEWS_PATH)*.class
 
 clean: clean-accueil clean-nettoyage
-
-run-accueil:
-	java -cp "mariadb-client.jar:." MainTest
 
 make-accueil-jar:
 	@echo "Java archive creation ..."

@@ -4,6 +4,12 @@ import models.*;
 import javax.swing.JOptionPane;
 import java.text.*;
 
+/**
+ * Classe MainNettoyage
+ * @author Martin Barreau
+ * Classe Main pour l'application de l'accueil
+ */
+
 public class AccueilMain
 {
 	public static void main(String[] args)
