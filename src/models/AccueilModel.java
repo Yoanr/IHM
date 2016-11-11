@@ -39,12 +39,35 @@ public class AccueilModel
 	private Statement stmt;
 	private Statement internal_stmt;
 
+	private ArrayList<Integer> excludedIds = new ArrayList<Integer>();
+	private String excludedIdsStr = "";
+
 	public static AccueilModel getInstance()
 	{
 		if(instance == null)
 			instance = new AccueilModel();
 
 		return instance;
+	}
+
+	public void registerId(int id)
+	{
+		if(excludedIds == null) excludedIds = new ArrayList<Integer>();
+		excludedIds.add(id);
+		formatExcludedIds();
+	}
+
+	private void formatExcludedIds()
+	{
+		int i;
+		int len = excludedIds.size();
+		for(i = 0; i < len; i++)
+			excludedIdsStr += excludedIds.get(i).toString()+",";
+
+		if(excludedIdsStr.length() > 0 && excludedIdsStr != null)
+			excludedIdsStr = excludedIdsStr.substring(0, excludedIdsStr.length() - 1);
+
+		System.out.println(excludedIdsStr);
 	}
 
 	public String getStrDate() { return this.dateStr; }
@@ -126,6 +149,8 @@ public class AccueilModel
 		ArrayList<Object> tmp = new ArrayList<Object>();
 
 		String query ="SELECT reservationfa.id, clientfa.nom, clientfa.prenom, debut, duree, categoriefa.raccourci FROM reservationfa INNER JOIN clientfa ON reservationfa.referenceClient = clientfa.id INNER JOIN categoriefa ON reservationfa.referenceCategorie = categoriefa.id WHERE debut = '" + dateStr + "'";
+		if(excludedIdsStr.length() != 0)
+			query += " AND reservationfa.id NOT IN (" + excludedIdsStr + ")";
 		try
 		{
 			openStatement();
@@ -226,7 +251,7 @@ public class AccueilModel
 	{
 		ArrayList<Integer> result = new ArrayList<Integer>();
 
-		String query = "SELECT idChambre FROM Chambre WHERE Categorie = " + categorie + " AND reservation = 0 AND isDirty = 0";
+		String query = "SELECT idChambre FROM Chambre WHERE Categorie = " + categorie + " AND reservation = 0";
 
 		try
 		{

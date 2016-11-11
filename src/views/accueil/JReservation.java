@@ -146,7 +146,8 @@ public class JReservation extends JFrame
 					return;
 				}
 				int i = (int) selector.getSelectedItem();
-				int p = (int) data.get(0);
+				//System.out.println(data.get(0));
+				//int p = Integer.parseInt(data.get(0));
 
 				AccueilModel am = AccueilModel.getInstance();
 				boolean b = false;
@@ -156,6 +157,7 @@ public class JReservation extends JFrame
 				if(b)
 				{
 					JOptionPane.showMessageDialog(null, "La réservation a bien été enregistrée !", "Confirmation de réservation", JOptionPane.INFORMATION_MESSAGE);
+					am.registerId(idReservation);
 					dispose();
 				}
 				else
