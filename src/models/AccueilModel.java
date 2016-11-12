@@ -30,6 +30,8 @@ public class AccueilModel
 	private final String LOGIN 		 	= "projetihm";
 	private final String  MDP		 	= "mhitejorp";
 
+	private boolean isTester;
+
 	private java.sql.Date dateOfDay;
 	private String 		  dateStr;
 
@@ -60,6 +62,12 @@ public class AccueilModel
 	}
 
 	/**
+	 * @param {boolean} b flag permettant ou non de bloquer
+	 * la date des requètes pour récupérer les réservations du jour
+	 */
+	public void setTesterMode(boolean b) { this.isTester = b; }
+
+	/**
 	 * @description("Méthode pour formater les IDs pour le filtre")
 	 */
 	private void formatExcludedIds()
@@ -80,6 +88,7 @@ public class AccueilModel
 
 	private AccueilModel()
 	{
+		isTester 	= false;
 		dateOfDay 	= new java.sql.Date((new java.util.Date()).getTime());
 		dateStr		= dateOfDay.toString();
 		try
@@ -152,6 +161,12 @@ public class AccueilModel
 	{
 		ArrayList<ArrayList<Object>> list = new ArrayList<ArrayList<Object>>();
 		ArrayList<Object> tmp = new ArrayList<Object>();
+
+		if(!isTester)
+		{
+			dateOfDay = new java.sql.Date((new java.util.Date()).getTime());
+			dateStr   = dateOfDay.toString();
+		}
 
 		String query ="SELECT reservationfa.id, clientfa.nom, clientfa.prenom, debut, duree, categoriefa.raccourci FROM reservationfa INNER JOIN clientfa ON reservationfa.referenceClient = clientfa.id INNER JOIN categoriefa ON reservationfa.referenceCategorie = categoriefa.id WHERE debut = '" + dateStr + "'";
 		if(excludedIdsStr.length() != 0)

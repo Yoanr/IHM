@@ -43,6 +43,7 @@ public class AccueilMain
 				AccueilModel am = AccueilModel.getInstance();
 
 				am.setStrDate(dateSelected);
+				am.setTesterMode(true);
 			}
 			else if(args[0].equals("help") || args[0].equals("-h") || args[0].equals("--helper"))
 			{
