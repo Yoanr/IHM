@@ -209,7 +209,7 @@ public String[][] recupChambreEmployer(int idemployer) {
    try {
       int firstroom=(idemployer*10)-9; 
       int lastroom=idemployer*10;
-      String requete="Select idChambre,reservation from Chambre where idChambre >= '" + firstroom+ "' AND idChambre <= '" + lastroom + "'  AND isDirty=1 ";
+      String requete="Select idChambre,reservation from Chambre where idChambre >= '" + firstroom+ "' AND idChambre <= '" + lastroom + "' AND reservation>0  AND isDirty=1 ";
       ResultSet rs=this.stmt.executeQuery(requete);
       int size= 0;
       if (rs != null) {  
